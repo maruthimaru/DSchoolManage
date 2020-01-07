@@ -24,9 +24,14 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import { Login } from "./src/Login";
+
 const App: () => React$Node = () => {
   return (
-    <>
+    <Login/>
+    /**<>
+  
+    <Text>Login</Text>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView
@@ -40,7 +45,7 @@ const App: () => React$Node = () => {
           )}
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
+              <Text style={styles.sectionTitle}>setp one</Text>
               <Text style={styles.sectionDescription}>
                 Edit <Text style={styles.highlight}>App.js</Text> to change this
                 screen and then come back to see your edits.
@@ -66,9 +71,9 @@ const App: () => React$Node = () => {
             </View>
             <LearnMoreLinks />
           </View>
-        </ScrollView>
+      </ScrollView>  
       </SafeAreaView>
-    </>
+    </>*/
   );
 };
 
