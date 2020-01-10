@@ -24,11 +24,11 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import { Login } from "./src/Login";
+import Routes from './src/components/Routes'
 
 const App: () => React$Node = () => {
   return (
-    <Login/>
+    <Routes/>
     /**<>
   
     <Text>Login</Text>
