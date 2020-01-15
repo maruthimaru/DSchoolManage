@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View ,StyleSheet,TextInput,Button,Alert,TouchableHighlight,TouchableOpacity,ActivityIndicator,
-FlatList,SafeAreaView, ScrollView} from 'react-native'
+FlatList,SafeAreaView, ScrollView,BackHandler} from 'react-native'
 import {
   Header,
   LearnMoreLinks,
@@ -11,7 +11,6 @@ import {
 import { Actions } from 'react-native-router-flux'
 
 export class UserList extends Component {
-
   state ={   
       list:[
            {name:"raja"},
@@ -22,9 +21,24 @@ export class UserList extends Component {
        ],
        userName: '',
        password: '',
-       isLoading: true}
+       backHandler:'',
+       isLoading: true
+       }
+
+      //  handleBackPress(backHandler){
+      //    console.log("backHandler :" +backHandler);
+      //    Actions.userList(onBack=()=>
+
+      //    )
+    // return true; 
+      //  }
 
   componentDidMount(){
+//     var back=BackHandler.addEventListener('hardwareBackPress', this.handleBackPress(this.state.backHandler));
+//     this.setState({
+// backHandler:back
+//     })
+      
        var url="https://developer.scoto.in/react/api/Login/list"
       console.log("url "+url)
       return fetch(url)
@@ -33,7 +47,6 @@ export class UserList extends Component {
     .then((responseJson) => {
          Alert.alert(responseJson.message)
          
-         var productArray=responseJson.data
         this.setState({
           isLoading: false,
           dataSource: responseJson.data,
@@ -41,7 +54,7 @@ export class UserList extends Component {
           },function() {
             
           });
-        console.log( "productArray" + productArray + " datasource " + this.state.dataSource) 
+        
         // console.log(responseJson.data)
         // this.props.navigation.navigate('UserList')
 

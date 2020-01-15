@@ -7,9 +7,9 @@ import {
   Colors,
   DebugInstructions,
   ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+} from 'react-native/Libraries/NewAppScreen'
 import { Actions } from 'react-native-router-flux'
-import UserList from './UserList'
+import HomeAdmin from './HomeAdmin'
 import { openDatabase } from 'react-native-sqlite-storage';
 var db = openDatabase({ name: 'DSchool.db' });
 
@@ -53,8 +53,8 @@ export class Login extends Component {
        isLoading: true}
 
        //insert
-insert=(user_name,password)=>{
-  console.log("username : "+user_name +" pass "+ password)
+insert=(user_name,password,loginType)=>{
+  console.log("username : "+user_name +" pass "+ password +" loginType "+loginType)
        db.transaction(function(tx) {
             tx.executeSql(
               'INSERT INTO login(user_name, password) VALUES (?,?)',
@@ -68,8 +68,16 @@ insert=(user_name,password)=>{
                     [
                       {
                         text: 'Ok',
-                        onPress: () =>
-                           Actions.userList() ,
+                        onPress: () =>{
+                          if (loginType=="Admin") {
+                           Actions.homeAdmin() 
+                          }else if(loginType=="Driver"){
+                          Actions.homeDriver() 
+                          }else{
+                          Actions.homeCustomer()         
+                          }
+                           
+                         } ,
                       },
                     ],
                     { cancelable: false }
@@ -92,9 +100,10 @@ insert=(user_name,password)=>{
     .then((responseJson) => {
         //  Alert.alert(responseJson.message)
         if (responseJson.status) {
-          this.insert(userName,password)
+          this.insert(userName,password,"Admin")
         }else{
-            Alert.alert(responseJson.message)
+          this.checkDriver(userName,password)
+            
         }
         // console.log(responseJson)
         // this.props.navigation.navigate('UserList')
@@ -103,6 +112,46 @@ insert=(user_name,password)=>{
     .catch((error) => {
       console.error(error);
     });
+   }
+
+   checkDriver(userName,password){
+       console.log(userName +" pass "+ password )
+      db.transaction((txn)=> {
+           
+        txn.executeSql("SELECT * FROM driver_reg where phone_number='"+userName+"' and password ='"+password+"'"
+        ,[]).then((tx, res)=>{
+          console.log('item:', res.rows.length);
+          
+          if (res.rows.length != 0) {
+           this.insert(userName,password,"Driver")
+          }else{
+            console.log("No data" )
+           this.checkCustomer(userName,password)
+          }
+        }).catch(err =>{
+        console.log("error : "+err);
+        
+        });
+              }).catch(error => {
+                    console.log("error "+error);
+                });
+   }
+   checkCustomer(userName,password){
+       console.log(userName +" pass "+ password )
+      db.transaction((txn)=> {
+           
+        txn.executeSql("SELECT * FROM customer_reg where phone_number='"+userName+"' and password ='"+password+"'"
+        ,[],(tx, res)=>{
+          console.log('item:', res.rows.length);
+          
+          if (res.rows.length != 0) {
+           this.insert(userName,password,"Cusomer")
+          }else{
+            console.log("No data" )
+           Alert.alert("Invalid login")
+          }
+        });
+              });
    }
 
     render() {
