@@ -10,8 +10,25 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import { Actions } from 'react-native-router-flux'
 import { openDatabase } from 'react-native-sqlite-storage';
+import ActionBarImage from '../components/ActionBarImage'
 var db = openDatabase({ name: 'DSchool.db' });
 export class DriverList extends Component {
+
+static navigationOptions =
+   {
+      title: 'Home',
+ 
+      headerRight : <ActionBarImage />,
+ 
+      headerStyle: {
+ 
+      backgroundColor: '#FFf'
+ 
+    },
+ 
+    headerTintColor: '#000',
+ 
+   };
 
 
   constructor(props) {
@@ -21,7 +38,9 @@ export class DriverList extends Component {
        userName: '',
        password: '',
        backHandler:'',
+       dataSource:[],
        isLoading: true,
+       animating:true,
        };
   
       db.transaction((txn)=> {
@@ -37,6 +56,7 @@ export class DriverList extends Component {
          console.log('temp:',temp);
             this.setState({
               isLoading:false,
+                animating:false,
           dataSource: temp,
           }); 
           console.log('dataSource:', this.state.dataSource);
@@ -45,7 +65,8 @@ export class DriverList extends Component {
             console.log( " datasource1 " ) 
             this.setState({
           isLoading: true,
-          dataSource: temp,
+            animating:true,
+          
           });
           console.log( " datasource " + this.state.dataSource) 
           }
@@ -68,26 +89,21 @@ Actions.driverRegistration()
 
     render() {
 
-      if (this.state.isLoading) {
-  return(
-  <View style={{flex: 1, padding: 20}}>
-  <TouchableOpacity 
-    style={styles.button}
-    onPress={()=>this.newDriver() }>
-      <Text>New Driver Add</Text>
-    </TouchableOpacity>
-
-          <ActivityIndicator/>
-        </View>
-
-  )
-}
+    const animating = this.state.animating
         return (
               <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
             <View>
+
+             <TouchableOpacity 
+    style={styles.button}
+    onPress={()=>this.newDriver() }>
+      <Text>New Driver Add</Text>
+    </TouchableOpacity>
+
+          <ActivityIndicator animating={animating}/>
         {this.state.dataSource.map((item, index) => (
               <TouchableOpacity
               style = {styles.listStyle}
@@ -95,10 +111,13 @@ Actions.driverRegistration()
                 onPress = {() =>  Alert.alert(item.user_id.toString())}>
                 <View style = {styles.container}>
                 <Text style = {styles.text}>
-                    {item.user_id}
+                    {item.user_name}
                 </Text>
-                <Text style = {styles.textDate}>
-                    {item.user_id}
+                <Text style = {styles.text}>Licence:
+                    {item.licence_number}
+                </Text>
+                <Text style = {styles.textDate}>Ph:
+                    {item.phone_number}
                 </Text>
                 </View>
               </TouchableOpacity>
@@ -151,6 +170,7 @@ buttonStyle:{
 },
  button: {
     alignItems: 'center',
+    justifyContent:"center",
     backgroundColor: '#DDDDDD',
     height:35,
     margin:20,

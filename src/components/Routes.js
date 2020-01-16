@@ -10,6 +10,7 @@ import CustomerRegistration from '../pages/CustomerRegistration'
 import HomeAdmin from '../pages/HomeAdmin'
 import HomeCustomer from '../pages/HomeCustomer'
 import HomeDriver from '../pages/HomeDriver'
+import Splash from '../pages/Splash'
 import { ToastAndroid ,BackHandler} from 'react-native';
 
 var backButtonPressedOnceToExit = false;
@@ -22,7 +23,8 @@ export class  Routes extends React.Component {
         if (backButtonPressedOnceToExit) {
             BackHandler.exitApp();
         } else {
-            if (Actions.currentScene === 'login' || Actions.currentScene ==='homeAdmin') {
+            if (Actions.currentScene === 'login' || Actions.currentScene ==='homeAdmin' 
+            || Actions.currentScene ==='homeDriver' || Actions.currentScene ==='homeCustomer') {
                  backButtonPressedOnceToExit = true;
                 ToastAndroid.show("Press Back Button again to exit",ToastAndroid.SHORT);
                 //setting timeout is optional
@@ -43,7 +45,8 @@ render(){
    return(
       <Router backAndroidHandler={this.onBackPress}>
       <Stack key = "root">
-         <Scene key = "login" component = {Login} title = "Login" hideNavBar={true} initial = {true} />
+      <Scene key = "splash" component = {Splash} title = "Splash" hideNavBar={true} initial = {true} />
+         <Scene key = "login" component = {Login} title = "Login" hideNavBar={true} />
          <Scene key = "userList" component = {UserList} title = "UserList" />
          <Scene key="driverRegistration" component={DriverRegistration} title = "DriverRegistration"/>
          <Scene key="driverList" component={DriverList} title = "DriverList"/>

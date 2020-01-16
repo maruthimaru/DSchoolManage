@@ -11,9 +11,27 @@ import {
 import { Actions } from 'react-native-router-flux'
 import UserList from './UserList'
 import { openDatabase } from 'react-native-sqlite-storage';
+import ActionBarImage from '../components/ActionBarImage'
 var db = openDatabase({ name: 'DSchool.db' });
 
 export class DriverRegistration extends Component {
+
+static navigationOptions =
+   {
+      title: 'Home',
+ 
+      headerRight : <ActionBarImage />,
+ 
+      headerStyle: {
+ 
+      backgroundColor: '#FFf'
+ 
+    },
+ 
+    headerTintColor: '#000',
+ 
+   };
+
 
   constructor(props) {
     super(props)

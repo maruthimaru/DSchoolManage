@@ -27,7 +27,7 @@ export class Login extends Component {
           if (res.rows.length == 0) {
             txn.executeSql('DROP TABLE IF EXISTS login', []);
             txn.executeSql(
-              'CREATE TABLE IF NOT EXISTS login(user_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name VARCHAR(225), password VARCHAR(255))',
+              'CREATE TABLE IF NOT EXISTS login(user_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name VARCHAR(225), password VARCHAR(255), type VARCHAR(255))',
               []
             );
             console.log("table created")
@@ -57,8 +57,8 @@ insert=(user_name,password,loginType)=>{
   console.log("username : "+user_name +" pass "+ password +" loginType "+loginType)
        db.transaction(function(tx) {
             tx.executeSql(
-              'INSERT INTO login(user_name, password) VALUES (?,?)',
-              [user_name, password],
+              'INSERT INTO login(user_name, password,type) VALUES (?,?,?)',
+              [user_name, password,loginType],
               (tx, results) => {
                 console.log('Results', results.rowsAffected);
                 if (results.rowsAffected > 0) {
@@ -117,9 +117,21 @@ insert=(user_name,password,loginType)=>{
    checkDriver(userName,password){
        console.log(userName +" pass "+ password )
       db.transaction((txn)=> {
-           
+           txn.executeSql(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='driver_reg'",
+        [],
+        (tx, res)=> {
+          console.log('item:', res.rows.length);
+          if (res.rows.length == 0) {
+             this.checkCustomer(userName,password)
+            console.log("table created")
+          }else{
+            console.log("already table created")
+       var query="SELECT * FROM driver_reg where phone_number='"+userName+"' and password ='"+password+"'"
+       console.log(query);
+       
         txn.executeSql("SELECT * FROM driver_reg where phone_number='"+userName+"' and password ='"+password+"'"
-        ,[]).then((tx, res)=>{
+        ,[],(tx, res)=>{
           console.log('item:', res.rows.length);
           
           if (res.rows.length != 0) {
@@ -132,14 +144,24 @@ insert=(user_name,password,loginType)=>{
         console.log("error : "+err);
         
         });
-              }).catch(error => {
-                    console.log("error "+error);
-                });
+        }
+         }
+      );
+              });
    }
    checkCustomer(userName,password){
        console.log(userName +" pass "+ password )
       db.transaction((txn)=> {
-           
+           txn.executeSql(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='customer_reg'",
+        [],
+        (tx, res)=> {
+          console.log('item:', res.rows.length);
+          if (res.rows.length == 0) {
+            Alert.alert("Invalid login")
+            console.log("table created")
+          }else{
+          
         txn.executeSql("SELECT * FROM customer_reg where phone_number='"+userName+"' and password ='"+password+"'"
         ,[],(tx, res)=>{
           console.log('item:', res.rows.length);
@@ -151,6 +173,9 @@ insert=(user_name,password,loginType)=>{
            Alert.alert("Invalid login")
           }
         });
+           }
+        }
+      );
               });
    }
 
@@ -168,7 +193,7 @@ insert=(user_name,password,loginType)=>{
                 <Text style={styles.textColor}> Login </Text>
                 <TextInput 
                 style={styles.textInputStyle} 
-                placeholder="Enter Name" 
+                placeholder="Enter Name / Number"
                 placeholderTextColor="#afafaf"
                 onChangeText={(text) => this.setState({userName : text})}
                 />
