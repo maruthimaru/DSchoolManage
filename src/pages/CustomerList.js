@@ -10,8 +10,25 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import { Actions } from 'react-native-router-flux'
 import { openDatabase } from 'react-native-sqlite-storage';
+import ActionBarImage from '../components/ActionBarImage'
 var db = openDatabase({ name: 'DSchool.db' });
 export class CustomerList extends Component {
+
+static navigationOptions =
+   {
+      title: 'Home',
+ 
+      headerRight : <ActionBarImage />,
+ 
+      headerStyle: {
+ 
+      backgroundColor: '#FFf'
+ 
+    },
+ 
+    headerTintColor: '#000',
+ 
+   };
 
 
   constructor(props) {
@@ -98,7 +115,7 @@ const animating = this.state.animating
                 <Text style = {styles.text}>
                     {item.address}
                 </Text>
-                <Text style = {styles.textDate}>
+                <Text style = {styles.textDate}>Ph:
                     {item.phone_number}
                 </Text>
                 </View>

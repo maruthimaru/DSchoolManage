@@ -3,8 +3,26 @@ import { Text, View,StyleSheet,TouchableOpacity } from 'react-native'
 import DriverList from './DriverList'
 import CustomerList from './CustomerList'
 import { Actions } from 'react-native-router-flux'
+import ActionBarImage from '../components/ActionBarImage'
 
 export class HomeDriver extends Component {
+
+static navigationOptions =
+   {
+      title: 'Home',
+ 
+      headerRight : <ActionBarImage />,
+ 
+      headerStyle: {
+ 
+      backgroundColor: '#FFf'
+ 
+    },
+ 
+    headerTintColor: '#000',
+ 
+   };
+
 
 moveDriverScreen(){
 // Actions.driverList()
