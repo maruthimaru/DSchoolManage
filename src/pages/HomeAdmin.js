@@ -5,10 +5,13 @@ import CustomerList from './CustomerList'
 import ActionBarImage from '../components/ActionBarImage'
 import { Actions } from 'react-native-router-flux'
 
-
-
 export class HomeAdmin extends Component {
 
+    constructor(props) {
+        super(props)
+//    Actions.sideMenu()
+    }
+    
 static navigationOptions =
    {
       title: 'Home',

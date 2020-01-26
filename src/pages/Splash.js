@@ -1,11 +1,28 @@
 import React, { Component } from 'react'
 import { Text, View ,Image,StyleSheet} from 'react-native'
 import { Actions } from 'react-native-router-flux'
+import Routes from '../../src/routes'
 import { openDatabase } from 'react-native-sqlite-storage';
 var db = openDatabase({ name: 'DSchool.db' });
+var isAdmin= false;
 export default class Splash extends Component {
 
+  state={
+            isAdmin: false,
+          };
+
+
+  componentDidMount() {
+     
+          setTimeout(() => {
+                this.moveScreen()
+            // Actions.login()
+              }, 3000);    
+  }
+  
+
 moveScreen(){
+  let currentComponent = this;
      db.transaction(function(txn) {
       txn.executeSql(
         "SELECT name FROM sqlite_master WHERE type='table' AND name='login'",
@@ -24,11 +41,18 @@ txn.executeSql(
               var loginType=res.rows.item(0).type
               console.log('loginType:', loginType);
                 if (loginType=="Admin") {
-                           Actions.homeAdmin() 
+                  // Actions.menu()
+                  
+                  // currentComponent.setState({
+                  //     isAdmin: true,
+                  // });
+                  Actions.homeAdmin()
+                      // isAdmin=true;
+                  // console.log("isAdmin2 ",isAdmin + "state : ");
                           }else if(loginType=="Driver"){
-                          Actions.homeDriver() 
+                          Actions.homeDriver()
                           }else{
-                          Actions.homeCustomer()         
+                          Actions.homeCustomer()
                           }
           }else{
             console.log("already table created")
@@ -43,13 +67,18 @@ txn.executeSql(
 }
 
     render() {
-        setTimeout(() => {
-            this.moveScreen()
-            // Actions.login()
-        }, 3000);
+        
         let pic={
             uri:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.winudf.com%2Fv2%2Fimage%2FY29tLmdhbWVzLmVkZ2UuY2FyLmRyaXZpbmdzY2hvb2wyMDE3X3NjcmVlbl80XzE1MjAwMDIxNjdfMDg0%2Fscreen-4.jpg%3Fh%3D800%26fakeurl%3D1%26type%3D.jpg&f=1&nofb=1"
         };
+console.log("isAdmin "+this.state.isAdmin);
+
+        if (this.state.isAdmin) {
+          return(
+                           <View  style={{flex:1}}>
+                            <Routes/>
+                            </View>)
+        }
         return (
             <View style={styles.viewColor}>
                <Image source={require("../images/splash_img.jpeg")} style={{width: 412, height: 324}}/>

@@ -25,7 +25,7 @@ static navigationOptions =
 
 
 moveDriverScreen(){
-// Actions.driverList()
+Actions.trainerDetails()
 }
 moveCustomerScreen(){
 // Actions.customerList()
@@ -36,7 +36,7 @@ moveCustomerScreen(){
             <TouchableOpacity 
             onPress={(this.moveDriverScreen)}
             style={styles.button}>
-                <Text> Login customer success </Text>
+                <Text> Trainer Details </Text>
             </TouchableOpacity>
                 {/* <TouchableOpacity 
                 onPress={(this.moveCustomerScreen)}

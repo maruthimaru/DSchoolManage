@@ -11,6 +11,10 @@ import HomeAdmin from '../pages/HomeAdmin'
 import HomeCustomer from '../pages/HomeCustomer'
 import HomeDriver from '../pages/HomeDriver'
 import Splash from '../pages/Splash'
+import Menu from '../../src/routes'
+import TrainerDetails from '../pages/TrainerDetails'
+import TrainerCustomerList from '../pages/TrainerCustomerList'
+// import SideMenu from '../components/SideMenu'
 import { ToastAndroid ,BackHandler} from 'react-native';
 
 var backButtonPressedOnceToExit = false;
@@ -53,9 +57,16 @@ render(){
          <Scene key="customerRegistration" component={CustomerRegistration} title = "CustomerRegistration"/>
          <Scene key="customerList" component={CustomerList} title = "CustomerList"/>
          <Scene key="homeAdmin" component={HomeAdmin} title ="Home"/>
+         <Scene key="menu" component={Menu} title ="Menu"/>
          <Scene key="homeCustomer" component={HomeCustomer} title ="Home"/>
          <Scene key="homeDriver" component={HomeDriver} title ="Home"/>
+         <Scene key="trainerCustomerList" component={TrainerCustomerList} title ="Customer List"/>
+         <Scene key="trainerDetails" component={TrainerDetails} title="Trainer Details"/>
          <Scene key = "documentUpload" component = {DocumentPickerApp} title = "DocumentUpload" />
+          {/* <Scene
+     key="sideMenu" component={HomeAdmin} navTransparent={1}
+     navBar={SideMenu}
+       /> */}
       </Stack>
    </Router>
    )
