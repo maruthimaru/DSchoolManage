@@ -102,7 +102,7 @@ Actions.driverRegistration()
     onPress={()=>this.newDriver() }>
       <Text>New Driver Add</Text>
     </TouchableOpacity>
-
+  
           <ActivityIndicator animating={animating}/>
         {this.state.dataSource.map((item, index) => (
               <TouchableOpacity

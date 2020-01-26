@@ -48,7 +48,7 @@ static navigationOptions =
               'CREATE TABLE IF NOT EXISTS customer_reg(user_id INTEGER PRIMARY KEY AUTOINCREMENT,'+
                'user_name VARCHAR(225), age VARCHAR(225), address VARCHAR(225), llr_number VARCHAR(225),'+
                'licence_number VARCHAR(225), phone_number VARCHAR(15),'+
-               'status VARCHAR(225), password VARCHAR(255))',
+               'status VARCHAR(225), password VARCHAR(255), trainerId VARCHAR(255))',
               []
             );
             console.log("table created")
@@ -77,15 +77,16 @@ static navigationOptions =
        password: '',
        address:'',
        llrNumber:'',
+       trainerId: '',
        isLoading: true}
 
        //insert
-insert=(user_name,age,address,llrNumber,licenceNumber,phoneNumber,status,password)=>{
+insert=(user_name,age,address,llrNumber,licenceNumber,phoneNumber,status,password,trainerId)=>{
   console.log("username : "+user_name +"age "+age +" llr "+llrNumber+" licence "+licenceNumber +" phone " +phoneNumber+" status "+status+" pass "+ password)
        db.transaction((tx)=> {
             tx.executeSql(
-              'INSERT INTO customer_reg(user_name, age, address, llr_number,licence_number,phone_number,status,password) VALUES (?,?,?,?,?,?,?,?)',
-              [user_name,age,address,llrNumber,licenceNumber,phoneNumber,status, password],
+              'INSERT INTO customer_reg(user_name, age, address, llr_number,licence_number,phone_number,status,password,trainerId) VALUES (?,?,?,?,?,?,?,?,?)',
+              [user_name,age,address,llrNumber,licenceNumber,phoneNumber,status, password,trainerId],
               (tx, results) => {
                 console.log('Results', results.rowsAffected);
                 if (results.rowsAffected > 0) {
@@ -145,12 +146,7 @@ insert=(user_name,age,address,llrNumber,licenceNumber,phoneNumber,status,passwor
                 placeholderTextColor="#afafaf"
                 onChangeText={(text) => this.setState({llrNumber : text})}
                 />
-                <TextInput 
-                style={styles.textInputStyle} 
-                placeholder="Enter Licence Number" 
-                placeholderTextColor="#afafaf"
-                onChangeText={(text) => this.setState({licenceNumber : text})}
-                />
+              
                 <TextInput 
                 style={styles.textInputStyle} 
                 placeholder="Enter Phone Number" 
@@ -163,6 +159,19 @@ insert=(user_name,age,address,llrNumber,licenceNumber,phoneNumber,status,passwor
                 placeholderTextColor="#afafaf"
                 secureTextEntry={true}
                  onChangeText={(text) => this.setState({password : text})}
+                />
+
+                  <TextInput 
+                style={styles.textInputStyle} 
+                placeholder="Enter Trainer Id" 
+                placeholderTextColor="#afafaf"
+                onChangeText={(text) => this.setState({trainerId : text})}
+                />
+                  <TextInput 
+                style={styles.textInputStyle} 
+                placeholder="Enter Licence Number" 
+                placeholderTextColor="#afafaf"
+                onChangeText={(text) => this.setState({licenceNumber : text})}
                 />
 
                {/* {
@@ -180,7 +189,7 @@ insert=(user_name,age,address,llrNumber,licenceNumber,phoneNumber,status,passwor
 
                 <TouchableOpacity 
                 onPress={()=> this.insert(  this.state.userName,this.state.age,this.state.address,this.state.llrNumber,this.state.licenceNumber, 
-                this.state.phoneNumber,this.state.status,this.state.password) } 
+                this.state.phoneNumber,this.state.status,this.state.password,this.state.trainerId) } 
                 style={styles.button}>
                 <Text style={styles.buttonStyle}>Register</Text>
                 </TouchableOpacity>

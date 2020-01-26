@@ -10,6 +10,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen'
 import { Actions } from 'react-native-router-flux'
 import HomeAdmin from './HomeAdmin'
+import Routes from '../../src/routes'
 import { openDatabase } from 'react-native-sqlite-storage';
 var db = openDatabase({ name: 'DSchool.db' });
 
@@ -27,7 +28,8 @@ export class Login extends Component {
           if (res.rows.length == 0) {
             txn.executeSql('DROP TABLE IF EXISTS login', []);
             txn.executeSql(
-              'CREATE TABLE IF NOT EXISTS login(user_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name VARCHAR(225), password VARCHAR(255), type VARCHAR(255))',
+              'CREATE TABLE IF NOT EXISTS login(user_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name VARCHAR(225),' +
+              'password VARCHAR(255), type VARCHAR(255), trainer_id VARCHAR(255), customer_id VARCHAR(255))',
               []
             );
             console.log("table created")
@@ -50,15 +52,16 @@ export class Login extends Component {
        ],
        userName: '',
        password: '',
-       isLoading: true}
+       isLoading: true,
+       isAdmin: false}
 
        //insert
-insert=(user_name,password,loginType)=>{
-  console.log("username : "+user_name +" pass "+ password +" loginType "+loginType)
-       db.transaction(function(tx) {
+insert=(user_name,password,loginType,trainer_id,user_id)=>{
+  console.log("username : "+user_name +" pass "+ password +" loginType "+loginType+"trainer_id "+trainer_id)
+       db.transaction((tx)=> {
             tx.executeSql(
-              'INSERT INTO login(user_name, password,type) VALUES (?,?,?)',
-              [user_name, password,loginType],
+              'INSERT INTO login(user_name, password,type,trainer_id,customer_id) VALUES (?,?,?,?,?)',
+              [user_name, password,loginType,trainer_id,user_id],
               (tx, results) => {
                 console.log('Results', results.rowsAffected);
                 if (results.rowsAffected > 0) {
@@ -70,11 +73,12 @@ insert=(user_name,password,loginType)=>{
                         text: 'Ok',
                         onPress: () =>{
                           if (loginType=="Admin") {
-                           Actions.homeAdmin() 
+                            Actions.homeAdmin()
+                          // this.setState({isAdmin: true});
                           }else if(loginType=="Driver"){
                           Actions.homeDriver() 
                           }else{
-                          Actions.homeCustomer()         
+                          Actions.homeCustomer()
                           }
                            
                          } ,
@@ -100,7 +104,7 @@ insert=(user_name,password,loginType)=>{
     .then((responseJson) => {
         //  Alert.alert(responseJson.message)
         if (responseJson.status) {
-          this.insert(userName,password,"Admin")
+          this.insert(userName,password,"Admin","","")
         }else{
           this.checkDriver(userName,password)
             
@@ -135,7 +139,13 @@ insert=(user_name,password,loginType)=>{
           console.log('item:', res.rows.length);
           
           if (res.rows.length != 0) {
-           this.insert(userName,password,"Driver")
+            var temp = [];
+        for (let i = 0; i < res.rows.length; ++i) {
+          temp.push(res.rows.item(i));
+        }
+         console.log('DriverDetails:',temp[0].driver_id);
+            
+           this.insert(userName,password,"Driver",temp[0].driver_id,"")
           }else{
             console.log("No data" )
            this.checkCustomer(userName,password)
@@ -167,7 +177,13 @@ insert=(user_name,password,loginType)=>{
           console.log('item:', res.rows.length);
           
           if (res.rows.length != 0) {
-           this.insert(userName,password,"Cusomer")
+                var temp = [];
+        for (let i = 0; i < res.rows.length; ++i) {
+          temp.push(res.rows.item(i));
+        }
+         console.log('DriverDetails:',temp[0].trainerId);
+        
+           this.insert(userName,password,"Cusomer",temp[0].trainerId,temp[0].user_id)
           }else{
             console.log("No data" )
            Alert.alert("Invalid login")
@@ -180,7 +196,12 @@ insert=(user_name,password,loginType)=>{
    }
 
     render() {
-      // console.log(this.state.data)
+        if (this.state.isAdmin) {
+          return(
+                           <View  style={{flex:1}}>
+                            <Routes/>
+                            </View>)
+        }
 
 
         return (

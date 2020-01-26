@@ -46,7 +46,7 @@ static navigationOptions =
             txn.executeSql('DROP TABLE IF EXISTS driver_reg', []);
             txn.executeSql(
               'CREATE TABLE IF NOT EXISTS driver_reg(user_id INTEGER PRIMARY KEY AUTOINCREMENT,'+
-               'user_name VARCHAR(225), age VARCHAR(225),licence_number VARCHAR(225),phone_number VARCHAR(225),'+
+               'driver_id VARCHAR(225), user_name VARCHAR(225), age VARCHAR(225),licence_number VARCHAR(225),phone_number VARCHAR(225),'+
                'status VARCHAR(225), password VARCHAR(255))',
               []
             );
@@ -74,15 +74,16 @@ static navigationOptions =
        phoneNumber: '',
        status: 'active',
        password: '',
+       id: '',
        isLoading: true}
 
        //insert
-insert=(user_name,age,licenceNumber,phoneNumber,status,password)=>{
+insert=(id,user_name,age,licenceNumber,phoneNumber,status,password)=>{
   console.log("username : "+user_name +" pass "+ password)
        db.transaction(function(tx) {
             tx.executeSql(
-              'INSERT INTO driver_reg(user_name, age,licence_number,phone_number,status,password) VALUES (?,?,?,?,?,?)',
-              [user_name,age,licenceNumber,phoneNumber,status, password],
+              'INSERT INTO driver_reg(driver_id,user_name, age,licence_number,phone_number,status,password) VALUES (?,?,?,?,?,?,?)',
+              [id,user_name,age,licenceNumber,phoneNumber,status, password],
               (tx, results) => {
                 console.log('Results', results.rowsAffected);
                 if (results.rowsAffected > 0) {
@@ -118,6 +119,13 @@ insert=(user_name,age,licenceNumber,phoneNumber,status,password)=>{
           style={styles.scrollView}> 
             <View style={styles.viewColor}>
                 <Text style={styles.textColor}> Driver Registration </Text>
+                <TextInput 
+                style={styles.textInputStyle} 
+                placeholder="Enter Driver Id" 
+                placeholderTextColor="#afafaf"
+                onChangeText={(text) => this.setState({id : text})}
+                />
+                
                 <TextInput 
                 style={styles.textInputStyle} 
                 placeholder="Enter Name" 
@@ -164,7 +172,7 @@ insert=(user_name,age,licenceNumber,phoneNumber,status,password)=>{
                } */}
 
                 <TouchableOpacity 
-                onPress={()=> this.insert(  this.state.userName,this.state.age,this.state.licenceNumber, 
+                onPress={()=> this.insert(  this.state.id,this.state.userName,this.state.age,this.state.licenceNumber, 
                 this.state.phoneNumber,this.state.status,this.state.password) } 
                 style={styles.button}>
                 <Text style={styles.buttonStyle}>Register</Text>
