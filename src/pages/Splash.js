@@ -52,6 +52,7 @@ txn.executeSql(
                           }else if(loginType=="Driver"){
                           Actions.homeDriver()
                           }else{
+                          // Actions.register()
                           Actions.homeCustomer()
                           }
           }else{

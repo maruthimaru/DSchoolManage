@@ -8,6 +8,7 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen'
+import { Dropdown } from 'react-native-material-dropdown';
 import { Actions } from 'react-native-router-flux'
 import UserList from './UserList'
 import { openDatabase } from 'react-native-sqlite-storage';
@@ -48,7 +49,7 @@ static navigationOptions =
               'CREATE TABLE IF NOT EXISTS customer_reg(user_id INTEGER PRIMARY KEY AUTOINCREMENT,'+
                'user_name VARCHAR(225), age VARCHAR(225), address VARCHAR(225), llr_number VARCHAR(225),'+
                'licence_number VARCHAR(225), phone_number VARCHAR(15),'+
-               'status VARCHAR(225), password VARCHAR(255), trainerId VARCHAR(255))',
+               'status VARCHAR(225), password VARCHAR(255), trainerId VARCHAR(255),selected_slot VARCHAR(255))',
               []
             );
             console.log("table created")
@@ -58,6 +59,8 @@ static navigationOptions =
         }
       );
     });
+
+    this.slotList()
   }
   
 
@@ -78,15 +81,54 @@ static navigationOptions =
        address:'',
        llrNumber:'',
        trainerId: '',
-       isLoading: true}
+       selectedSlot:'',
+       isLoading: true,
+       slotdata:[],}
+
+        slotList(){
+        console.log(" slot list: ");
+        
+      db.transaction((txn)=> {
+           
+        txn.executeSql("SELECT * FROM slot_reg",[],(tx, res)=>{
+          console.log('itemslot :', res.rows.length);
+          
+          if (res.rows.length != 0) {
+            var temp = [];
+        for (let i = 0; i < res.rows.length; ++i) {
+          temp.push({ value: res.rows.item(i).start +"-" +res.rows.item(i).end});
+        }
+         console.log('tempslot:',temp);
+            this.setState({
+              isLoading:false,
+                animating:false,
+          slotdata: temp,
+          }); 
+          console.log('slotdata:', this.state.slotdata);
+          }else{
+            console.log("No data slot" )
+            console.log( " slotdata " ) 
+            this.setState({
+          isLoading: true,
+            animating:true,
+          slotdata: [],
+          });
+          console.log( " slotdata " + this.state.slotdata) 
+          }
+        }
+      );
+              });
+
+      }
 
        //insert
-insert=(user_name,age,address,llrNumber,licenceNumber,phoneNumber,status,password,trainerId)=>{
-  console.log("username : "+user_name +"age "+age +" llr "+llrNumber+" licence "+licenceNumber +" phone " +phoneNumber+" status "+status+" pass "+ password)
+insert=(user_name,age,address,llrNumber,licenceNumber,phoneNumber,status,password,trainerId,selectedSlot)=>{
+  console.log("username : "+user_name +"age "+age +" llr "+llrNumber+" licence "+licenceNumber +" phone " 
+  +phoneNumber+" status "+status+" pass "+ password+" selectedSlot "+selectedSlot)
        db.transaction((tx)=> {
             tx.executeSql(
-              'INSERT INTO customer_reg(user_name, age, address, llr_number,licence_number,phone_number,status,password,trainerId) VALUES (?,?,?,?,?,?,?,?,?)',
-              [user_name,age,address,llrNumber,licenceNumber,phoneNumber,status, password,trainerId],
+              'INSERT INTO customer_reg(user_name, age, address, llr_number,licence_number,phone_number,status,password,trainerId,selected_slot) VALUES (?,?,?,?,?,?,?,?,?,?)',
+              [user_name,age,address,llrNumber,licenceNumber,phoneNumber,status, password,trainerId,selectedSlot],
               (tx, results) => {
                 console.log('Results', results.rowsAffected);
                 if (results.rowsAffected > 0) {
@@ -113,7 +155,13 @@ insert=(user_name,age,address,llrNumber,licenceNumber,phoneNumber,status,passwor
     render() {
       // console.log(this.state.data)
 
-
+let data = [{
+      value: '05-00AM - 06-00AM',
+    }, {
+      value: '06-00AM - 07-00AM',
+    }, {
+      value: '07-00AM - 08-00AM',
+    }];
         return (
       
        <SafeAreaView>
@@ -167,6 +215,14 @@ insert=(user_name,age,address,llrNumber,licenceNumber,phoneNumber,status,passwor
                 placeholderTextColor="#afafaf"
                 onChangeText={(text) => this.setState({trainerId : text})}
                 />
+
+                 <Dropdown
+                 style={{color:'#FFF'}}
+        label='Select Slot'
+        baseColor='#FFF'
+        onChangeText={(text) => this.setState({selectedSlot : text})}
+        data={this.state.slotdata}
+      />
                   <TextInput 
                 style={styles.textInputStyle} 
                 placeholder="Enter Licence Number" 
@@ -189,7 +245,7 @@ insert=(user_name,age,address,llrNumber,licenceNumber,phoneNumber,status,passwor
 
                 <TouchableOpacity 
                 onPress={()=> this.insert(  this.state.userName,this.state.age,this.state.address,this.state.llrNumber,this.state.licenceNumber, 
-                this.state.phoneNumber,this.state.status,this.state.password,this.state.trainerId) } 
+                this.state.phoneNumber,this.state.status,this.state.password,this.state.trainerId,this.state.selectedSlot) } 
                 style={styles.button}>
                 <Text style={styles.buttonStyle}>Register</Text>
                 </TouchableOpacity>

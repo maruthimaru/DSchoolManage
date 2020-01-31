@@ -14,6 +14,10 @@ import Splash from '../pages/Splash'
 import Menu from '../../src/routes'
 import TrainerDetails from '../pages/TrainerDetails'
 import TrainerCustomerList from '../pages/TrainerCustomerList'
+import Register from '../Page3/Register'
+import SlotList from "../pages/SlotList";
+import SlotNew from "../pages/SlotNew";
+import CurrentDayCus from "../pages/CurrentDayCus";
 // import SideMenu from '../components/SideMenu'
 import { ToastAndroid ,BackHandler} from 'react-native';
 
@@ -35,7 +39,7 @@ export class  Routes extends React.Component {
                 setTimeout( () => { backButtonPressedOnceToExit = false }, 2000);
                 return true;
                 
-            } else if(Actions.currentScene === 'customerList' || Actions.currentScene === 'driverList'){
+            } else if(Actions.currentScene === 'customerList' || Actions.currentScene === 'driverList' || Actions.currentScene==='slotList'){
                 Actions.homeAdmin();
                 return true;
             }
@@ -63,6 +67,10 @@ render(){
          <Scene key="trainerCustomerList" component={TrainerCustomerList} title ="Customer List"/>
          <Scene key="trainerDetails" component={TrainerDetails} title="Trainer Details"/>
          <Scene key = "documentUpload" component = {DocumentPickerApp} title = "DocumentUpload" />
+         <Scene key="register" component={Register} title = "Register"/>
+         <Scene key="slotList" component={SlotList} title="SlotList"/>
+         <Scene key="slotNew" component={SlotNew} title="SlotNew"/>
+         <Scene key="currentDayCus" component={CurrentDayCus} title="CurrentDayCus"/>
           {/* <Scene
      key="sideMenu" component={HomeAdmin} navTransparent={1}
      navBar={SideMenu}

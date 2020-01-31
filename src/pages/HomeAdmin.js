@@ -68,6 +68,10 @@ Actions.driverList()
 moveCustomerScreen(){
 Actions.customerList()
 }
+
+moveSlotScreen(){
+Actions.slotList()
+}
     render() {
         return (
             <View style={styles.viewColor}>
@@ -80,6 +84,12 @@ Actions.customerList()
                 onPress={(this.moveCustomerScreen)}
                 style={styles.button}>
                 <Text> Customer </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+                onPress={(this.moveSlotScreen)}
+                style={styles.button}>
+                <Text> New Slot </Text>
             </TouchableOpacity>
             </View>
         )

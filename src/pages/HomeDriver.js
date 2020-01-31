@@ -28,11 +28,17 @@ moveDriverScreen(){
 Actions.trainerCustomerList()
 }
 moveCustomerScreen(){
-// Actions.customerList()
+Actions.currentDayCus()
 }
     render() {
         return (
             <View style={styles.viewColor}>
+
+            <TouchableOpacity 
+            onPress={(this.moveCustomerScreen)}
+            style={styles.button}>
+                <Text> Current Day Customer List </Text>
+            </TouchableOpacity>
             <TouchableOpacity 
             onPress={(this.moveDriverScreen)}
             style={styles.button}>
