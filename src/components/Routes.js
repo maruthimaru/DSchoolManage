@@ -18,6 +18,10 @@ import Register from '../Page3/Register'
 import SlotList from "../pages/SlotList";
 import SlotNew from "../pages/SlotNew";
 import CurrentDayCus from "../pages/CurrentDayCus";
+import CustomerAttendance from "../pages/CustomerAttendance";
+import CarList from "../pages/CarList";
+import CarRegistration from "../pages/CarRegistration";
+
 // import SideMenu from '../components/SideMenu'
 import { ToastAndroid ,BackHandler} from 'react-native';
 
@@ -39,7 +43,8 @@ export class  Routes extends React.Component {
                 setTimeout( () => { backButtonPressedOnceToExit = false }, 2000);
                 return true;
                 
-            } else if(Actions.currentScene === 'customerList' || Actions.currentScene === 'driverList' || Actions.currentScene==='slotList'){
+            } else if(Actions.currentScene === 'customerList' || Actions.currentScene === 'driverList' || Actions.currentScene==='slotList' 
+            || Actions.currentScene ==='carList'){
                 Actions.homeAdmin();
                 return true;
             }
@@ -71,6 +76,9 @@ render(){
          <Scene key="slotList" component={SlotList} title="SlotList"/>
          <Scene key="slotNew" component={SlotNew} title="SlotNew"/>
          <Scene key="currentDayCus" component={CurrentDayCus} title="CurrentDayCus"/>
+         <Scene key="customerAttendance" component={CustomerAttendance} title="Customer Attendance"/>
+         <Scene key="carRegistration" component={CarRegistration} title="Car Registration"/>
+         <Scene key="carList" component={CarList} title="Car List"/>
           {/* <Scene
      key="sideMenu" component={HomeAdmin} navTransparent={1}
      navBar={SideMenu}

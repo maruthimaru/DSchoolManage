@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View,StyleSheet,TouchableOpacity } from 'react-native'
+import { Text, View,StyleSheet,TouchableOpacity,ImageBackground } from 'react-native'
 import DriverList from './DriverList'
 import CustomerList from './CustomerList'
 import { Actions } from 'react-native-router-flux'
@@ -32,7 +32,7 @@ Actions.currentDayCus()
 }
     render() {
         return (
-            <View style={styles.viewColor}>
+            <ImageBackground style= { styles.backgroundImage } source={require("../images/bg.png")}>
 
             <TouchableOpacity 
             onPress={(this.moveCustomerScreen)}
@@ -49,7 +49,7 @@ Actions.currentDayCus()
                 style={styles.button}>
                 <Text> Customer </Text>
             </TouchableOpacity> */}
-            </View>
+            </ImageBackground>
         )
     }
 }
@@ -69,6 +69,14 @@ const styles=StyleSheet.create({
     margin:20,
 
   },
+  backgroundImage:{
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        justifyContent: "center",
+        alignItems: "center",
+        opacity: 0.7
+    },
 })
 
 export default HomeDriver

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View,StyleSheet,TouchableOpacity } from 'react-native'
+import { Text, View,StyleSheet,TouchableOpacity,ImageBackground } from 'react-native'
 import DriverList from './DriverList'
 import CustomerList from './CustomerList'
 import ActionBarImage from '../components/ActionBarImage'
@@ -72,9 +72,19 @@ Actions.customerList()
 moveSlotScreen(){
 Actions.slotList()
 }
+moveCarScreen(){
+Actions.carList()
+}
     render() {
         return (
-            <View style={styles.viewColor}>
+            <ImageBackground style= { styles.backgroundImage } source={require("../images/bg.png")}>
+            
+            <TouchableOpacity 
+                onPress={(this.moveCarScreen)}
+                style={styles.button}>
+                <Text> New Car </Text>
+            </TouchableOpacity>
+            
             <TouchableOpacity 
             onPress={(this.moveDriverScreen)}
             style={styles.button}>
@@ -86,12 +96,12 @@ Actions.slotList()
                 <Text> Customer </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity 
+            {/* <TouchableOpacity 
                 onPress={(this.moveSlotScreen)}
                 style={styles.button}>
                 <Text> New Slot </Text>
-            </TouchableOpacity>
-            </View>
+            </TouchableOpacity> */}
+            </ImageBackground>
         )
     }
 }
@@ -111,6 +121,14 @@ const styles=StyleSheet.create({
     margin:20,
 
   },
+  backgroundImage:{
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        justifyContent: "center",
+        alignItems: "center",
+        opacity: 0.7
+    },
 })
 
 export default HomeAdmin

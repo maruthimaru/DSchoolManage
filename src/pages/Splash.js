@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View ,Image,StyleSheet} from 'react-native'
+import { Text, View ,Image,StyleSheet,ImageBackground} from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import Routes from '../../src/routes'
 import { openDatabase } from 'react-native-sqlite-storage';
@@ -81,9 +81,9 @@ console.log("isAdmin "+this.state.isAdmin);
                             </View>)
         }
         return (
-            <View style={styles.viewColor}>
-               <Image source={require("../images/splash_img.jpeg")} style={{width: 412, height: 324}}/>
-            </View>
+            <ImageBackground style= { styles.backgroundImage } source={require("../images/bg.png")}>
+               {/* <Image source={require("../images/splash_img.jpeg")} style={{width: 412, height: 324}}/> */}
+            </ImageBackground>
         )
     }
 }
@@ -104,5 +104,13 @@ const styles=StyleSheet.create({
     margin:20,
 
   },
+  backgroundImage:{
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        justifyContent: "center",
+        alignItems: "center",
+        opacity: 0.7
+    },
 })
 

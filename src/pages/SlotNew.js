@@ -28,12 +28,12 @@ export default class SlotNew extends Component {
      super(props)
   db.transaction(function(txn) {
       txn.executeSql(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name='driver_reg'",
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='slot_reg'",
         [],
         function(tx, res) {
           console.log('item:', res.rows.length);
           if (res.rows.length == 0) {
-            txn.executeSql('DROP TABLE IF EXISTS driver_reg', []);
+            txn.executeSql('DROP TABLE IF EXISTS slot_reg', []);
             txn.executeSql(
               'CREATE TABLE IF NOT EXISTS slot_reg(user_id INTEGER PRIMARY KEY AUTOINCREMENT,'+
                'start VARCHAR(225), end VARCHAR(225))',
@@ -54,13 +54,13 @@ export default class SlotNew extends Component {
             secoundSlot:'',
         }
 
-        insert(start,end){
+        insert=(start,end)=>{
 console.log("start "+ start +"end: "+end );
 
 db.transaction(function(tx) {
             tx.executeSql(
-              'INSERT INTO slot_reg(start,end) VALUES (?,?)',
-              [start,end],
+              'INSERT INTO slot_reg(start, end) VALUES (?,?)',
+              [start, end],
               (tx, results) => {
                 console.log('Results', results.rowsAffected);
                 if (results.rowsAffected > 0) {

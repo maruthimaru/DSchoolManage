@@ -14,7 +14,7 @@ import { openDatabase } from 'react-native-sqlite-storage';
 import ActionBarImage from '../components/ActionBarImage'
 var db = openDatabase({ name: 'DSchool.db' });
 
-export class DriverRegistration extends Component {
+export class CarRegistration extends Component {
 
 static navigationOptions =
    {
@@ -38,16 +38,15 @@ static navigationOptions =
   
   db.transaction(function(txn) {
       txn.executeSql(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name='driver_reg'",
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='car_reg'",
         [],
         function(tx, res) {
           console.log('item:', res.rows.length);
           if (res.rows.length == 0) {
             txn.executeSql('DROP TABLE IF EXISTS driver_reg', []);
             txn.executeSql(
-              'CREATE TABLE IF NOT EXISTS driver_reg(user_id INTEGER PRIMARY KEY AUTOINCREMENT,'+
-               'driver_id VARCHAR(225), user_name VARCHAR(225), age VARCHAR(225),licence_number VARCHAR(225),phone_number VARCHAR(225),'+
-               'status VARCHAR(225), password VARCHAR(255), vehicle_number VARCHAR(255))',
+              'CREATE TABLE IF NOT EXISTS car_reg(id INTEGER PRIMARY KEY AUTOINCREMENT,'+
+               'user_name VARCHAR(225), number VARCHAR(225))',
               []
             );
             console.log("table created")
@@ -69,22 +68,16 @@ static navigationOptions =
            {name:"Jp"},
        ],
        userName: '',
-       age: '',
-       licenceNumber: '',
-       phoneNumber: '',
-       status: 'active',
-       password: '',
-       id: '',
-       vehicleNumber: '',
+       number: '',
        isLoading: true}
 
        //insert
-insert=(id,user_name,age,licenceNumber,phoneNumber,status,password,vehicleNumber)=>{
-  console.log("username : "+user_name +" pass "+ password)
+insert=(user_name,number)=>{
+  console.log("username : "+user_name +" pass "+ number)
        db.transaction(function(tx) {
             tx.executeSql(
-              'INSERT INTO driver_reg(driver_id,user_name, age,licence_number,phone_number,status,password,vehicle_number) VALUES (?,?,?,?,?,?,?,?)',
-              [id,user_name,age,licenceNumber,phoneNumber,status, password,vehicleNumber],
+              'INSERT INTO car_reg(user_name, number) VALUES (?,?)',
+              [user_name,number],
               (tx, results) => {
                 console.log('Results', results.rowsAffected);
                 if (results.rowsAffected > 0) {
@@ -95,7 +88,7 @@ insert=(id,user_name,age,licenceNumber,phoneNumber,status,password,vehicleNumber
                       {
                         text: 'Ok',
                         onPress: () =>
-                           Actions.driverList() ,
+                           Actions.carList() ,
                       },
                     ],
                     { cancelable: false }
@@ -119,14 +112,8 @@ insert=(id,user_name,age,licenceNumber,phoneNumber,status,password,vehicleNumber
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}> 
             <View style={styles.viewColor}>
-                <Text style={styles.textColor}> Driver Registration </Text>
-                <TextInput 
-                style={styles.textInputStyle} 
-                placeholder="Enter Driver Id" 
-                placeholderTextColor="#afafaf"
-                onChangeText={(text) => this.setState({id : text})}
-                />
-                
+                <Text style={styles.textColor}> Car Registration </Text>
+                              
                 <TextInput 
                 style={styles.textInputStyle} 
                 placeholder="Enter Name" 
@@ -135,36 +122,11 @@ insert=(id,user_name,age,licenceNumber,phoneNumber,status,password,vehicleNumber
                 />
                 <TextInput 
                 style={styles.textInputStyle} 
-                placeholder="Enter Age" 
+                placeholder="Enter Register Number" 
                 placeholderTextColor="#afafaf"
-                onChangeText={(text) => this.setState({age : text})}
+                onChangeText={(text) => this.setState({number : text})}
                 />
-                <TextInput 
-                style={styles.textInputStyle} 
-                placeholder="Enter Licence Number" 
-                placeholderTextColor="#afafaf"
-                onChangeText={(text) => this.setState({licenceNumber : text})}
-                />
-                <TextInput 
-                style={styles.textInputStyle} 
-                placeholder="Enter Phone Number" 
-                placeholderTextColor="#afafaf"
-                onChangeText={(text) => this.setState({phoneNumber : text})}
-                />
-                <TextInput 
-                style={styles.textInputStyle} 
-                placeholder="Enter Password" 
-                placeholderTextColor="#afafaf"
-                secureTextEntry={true}
-                 onChangeText={(text) => this.setState({password : text})}
-                />
-
-                <TextInput 
-                style={styles.textInputStyle} 
-                placeholder="Enter Vehicle Number" 
-                placeholderTextColor="#afafaf"
-                onChangeText={(text) => this.setState({vehicleNumber : text})}
-                />
+              
 
                {/* {
                 this.state.data.map((item, index) => (
@@ -180,8 +142,7 @@ insert=(id,user_name,age,licenceNumber,phoneNumber,status,password,vehicleNumber
                } */}
 
                 <TouchableOpacity 
-                onPress={()=> this.insert(  this.state.id,this.state.userName,this.state.age,this.state.licenceNumber, 
-                this.state.phoneNumber,this.state.status,this.state.password,this.state.vehicleNumber) } 
+                onPress={()=> this.insert( this.state.userName,this.state.number) } 
                 style={styles.button}>
                 <Text style={styles.buttonStyle}>Register</Text>
                 </TouchableOpacity>
@@ -235,4 +196,4 @@ buttonStyle:{
 
 });
 
-export default DriverRegistration
+export default CarRegistration

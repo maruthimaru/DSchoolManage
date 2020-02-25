@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View ,StyleSheet,TextInput,Button,Alert,TouchableHighlight,TouchableOpacity,ActivityIndicator,
-FlatList,SafeAreaView, ScrollView,BackHandler} from 'react-native'
+import { Text, View,TextInput,TouchableOpacity,StyleSheet,Alert,ActivityIndicator } from 'react-native'
 import {
   Header,
   LearnMoreLinks,
@@ -11,42 +10,60 @@ import {
 import { Actions } from 'react-native-router-flux'
 import { openDatabase } from 'react-native-sqlite-storage';
 import ActionBarImage from '../components/ActionBarImage'
+import moment from 'moment';
 var db = openDatabase({ name: 'DSchool.db' });
-export class CustomerList extends Component {
 
-static navigationOptions =
-   {
-      title: 'Home',
- 
-      headerRight : <ActionBarImage />,
- 
-      headerStyle: {
- 
-      backgroundColor: '#FFf'
- 
-    },
- 
-    headerTintColor: '#000',
- 
-   };
+// var date = new Date().getDate();
+//       var month = new Date().getMonth() + 1;
+//       var year = new Date().getFullYear();
+//       var currentDate= date + '-' + month + '-' + year;
 
+        //Getting the current date-time with required formate and UTC   
+    var currentDate = moment()
+      .utcOffset('+05:30')
+      .format('YYYY-MM-DD');
 
-  constructor(props) {
-    super(props)
+      var currentTime = moment()
+      .utcOffset('+05:30')
+      .format('hh:mm a');
 
-     this.state ={   
-       userName: '',
-       password: '',
-       backHandler:'',
-       dataSource:[],
-       animating:true,
-       isLoading: true,
-       };
-  
-const constThis=this;
+export class CustomerAttendance extends Component {
+
+    constructor(props) {
+      super(props)
+
+      this.state={
+    searchId:'',
+    trainerId:'',
+    animating:true,
+    dataSource:[],
+}
+
+//getting data from the login
       db.transaction((txn)=> {
            
-        txn.executeSql("SELECT * FROM customer_reg",[],(tx, res)=>{
+        txn.executeSql("SELECT * FROM login",[],(tx, res)=>{
+          console.log('item:', res.rows.length);
+          
+          if (res.rows.length != 0) {
+            var temp = [];
+        for (let i = 0; i < res.rows.length; ++i) {
+          temp.push(res.rows.item(i));
+        }
+        this.setState({
+          trainerId:temp[0].trainer_id,
+        })
+        this.CurrentList(temp[0].customer_id)
+          }
+        });
+              });
+    };
+
+    CurrentList(trainer_id){
+        console.log(" currentDate: "+currentDate + "trainer_id "+trainer_id);
+      db.transaction((txn)=> {
+           
+        txn.executeSql("SELECT * FROM today_customer_reg where user_id='"+trainer_id+"'",[],(tx, res)=>{
           console.log('item:', res.rows.length);
           
           if (res.rows.length != 0) {
@@ -55,18 +72,18 @@ const constThis=this;
           temp.push(res.rows.item(i));
         }
          console.log('temp:',temp);
-            constThis.setState({
+            this.setState({
               isLoading:false,
-              animating:false,
+                animating:false,
           dataSource: temp,
           }); 
           console.log('dataSource:', this.state.dataSource);
           }else{
             console.log("No data" )
             console.log( " datasource1 " ) 
-            constThis.setState({
+            this.setState({
           isLoading: true,
-          animating:true,
+            animating:true,
           dataSource: [],
           });
           console.log( " datasource " + this.state.dataSource) 
@@ -74,41 +91,21 @@ const constThis=this;
         }
       );
               });
-  }
-       
-      //  handleBackPress(backHandler){
-      //    console.log("backHandler :" +backHandler);
-      //    Actions.userList(onBack=()=>
 
-      //    )
-    // return true; 
-      //  }
+      }
 
-   newDriver(){
-Actions.customerRegistration()
-   }
-
+    
     render() {
-const animating = this.state.animating
-      
+      const animating = this.state.animating
         return (
-              <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
             <View>
-             <TouchableOpacity 
-    style={styles.button}
-    onPress={()=>this.newDriver() }>
-      <Text>New Customer Add</Text>
-    </TouchableOpacity>
 
-          <ActivityIndicator animating={animating}/>
+             <ActivityIndicator animating={animating}/>
         {this.state.dataSource.map((item, index) => (
               <TouchableOpacity
               style = {styles.listStyle}
                 key = {item}
-                onPress = {() =>  Alert.alert(item.user_id.toString())}>
+                onPress = {() =>  this.update(item)}>
                 <View style = {styles.container}>
                 <Text style = {styles.text}>
                     {item.user_name}
@@ -116,28 +113,22 @@ const animating = this.state.animating
                 <Text style = {styles.text}>
                     {item.address}
                 </Text>
-                {/* <Text style = {styles.text}>Slot : 
-                    {item.selected_slot}
-                </Text> */}
-                <Text style = {styles.textDate}>Ph:
+                <Text style = {styles.text}>Trainer Id : 
+                    {item.trainerId}
+                </Text>
+                <Text style = {styles.text}>Ph:
                     {item.phone_number}
+                </Text>
+                <Text style = {styles.textDate}>Date: {item.date}
+                </Text>
+                <Text style = {styles.textDate}>Training: {item.start} - {item.end}
                 </Text>
                 </View>
               </TouchableOpacity>
           ))
         }
-
-  {/* <FlatList
-                data={this.state.dataSource}
-                renderItem={({item}) => 
-                <Text>{item.user_id}</Text>
-                }
-                keyExtractor={({id}, index) => id}
-              /> */}
-
+                
             </View>
-                     </ScrollView>  
-          </SafeAreaView>
         )
     }
 }
@@ -158,9 +149,9 @@ textInputStyle:{
     margin:20,
     paddingLeft:5,
     paddingRight:5,
-    color:"#FFFFFF",
-    borderColor:"#dbdbdb",
-    borderWidth:0.5,
+    color:"#000000",
+    borderColor:"#a6a6a6",
+    borderWidth:1,
     
 },
 buttonStyle:{
@@ -208,4 +199,5 @@ margin:3,
   },
 });
 
-export default CustomerList
+
+export default CustomerAttendance
