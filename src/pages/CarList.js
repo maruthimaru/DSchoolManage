@@ -12,7 +12,7 @@ import { Actions } from 'react-native-router-flux'
 import { openDatabase } from 'react-native-sqlite-storage';
 import ActionBarImage from '../components/ActionBarImage'
 var db = openDatabase({ name: 'DSchool.db' });
-export class CustomerList extends Component {
+export class DriverList extends Component {
 
 static navigationOptions =
    {
@@ -39,14 +39,13 @@ static navigationOptions =
        password: '',
        backHandler:'',
        dataSource:[],
-       animating:true,
        isLoading: true,
+       animating:true,
        };
   
-const constThis=this;
       db.transaction((txn)=> {
            
-        txn.executeSql("SELECT * FROM customer_reg",[],(tx, res)=>{
+        txn.executeSql("SELECT * FROM car_reg",[],(tx, res)=>{
           console.log('item:', res.rows.length);
           
           if (res.rows.length != 0) {
@@ -55,19 +54,19 @@ const constThis=this;
           temp.push(res.rows.item(i));
         }
          console.log('temp:',temp);
-            constThis.setState({
+            this.setState({
               isLoading:false,
-              animating:false,
+                animating:false,
           dataSource: temp,
           }); 
           console.log('dataSource:', this.state.dataSource);
           }else{
             console.log("No data" )
             console.log( " datasource1 " ) 
-            constThis.setState({
+            this.setState({
           isLoading: true,
-          animating:true,
-          dataSource: [],
+            animating:true,
+          
           });
           console.log( " datasource " + this.state.dataSource) 
           }
@@ -85,42 +84,38 @@ const constThis=this;
       //  }
 
    newDriver(){
-Actions.customerRegistration()
+Actions.carRegistration()
    }
+   
 
     render() {
-const animating = this.state.animating
-      
+
+    const animating = this.state.animating
         return (
               <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
             <View>
+
              <TouchableOpacity 
     style={styles.button}
     onPress={()=>this.newDriver() }>
-      <Text>New Customer Add</Text>
+      <Text>New Car Add</Text>
     </TouchableOpacity>
-
+  
           <ActivityIndicator animating={animating}/>
         {this.state.dataSource.map((item, index) => (
               <TouchableOpacity
               style = {styles.listStyle}
                 key = {item}
-                onPress = {() =>  Alert.alert(item.user_id.toString())}>
+                onPress = {() =>  Alert.alert(item.user_name.toString())}>
                 <View style = {styles.container}>
                 <Text style = {styles.text}>
                     {item.user_name}
                 </Text>
-                <Text style = {styles.text}>
-                    {item.address}
-                </Text>
-                {/* <Text style = {styles.text}>Slot : 
-                    {item.selected_slot}
-                </Text> */}
-                <Text style = {styles.textDate}>Ph:
-                    {item.phone_number}
+                <Text style = {styles.text}>Reg.Number:
+                    {item.number}
                 </Text>
                 </View>
               </TouchableOpacity>
@@ -172,8 +167,8 @@ buttonStyle:{
     borderColor:"#FFFFFF"
 },
  button: {
-   justifyContent:"center",
     alignItems: 'center',
+    justifyContent:"center",
     backgroundColor: '#DDDDDD',
     height:35,
     margin:20,
@@ -208,4 +203,4 @@ margin:3,
   },
 });
 
-export default CustomerList
+export default DriverList

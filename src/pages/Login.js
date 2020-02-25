@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View ,StyleSheet,TextInput,Button,Alert,TouchableHighlight,TouchableOpacity,ActivityIndicator,
+import { Text, View ,StyleSheet,TextInput,Button,Alert,TouchableHighlight,TouchableOpacity,ActivityIndicator,ImageBackground,
 FlatList,SafeAreaView, ScrollView} from 'react-native'
 import {
   Header,
@@ -98,24 +98,30 @@ insert=(user_name,password,loginType,trainer_id,user_id)=>{
        var url="https://developer.scoto.in/react/api/Login/user?username="+ userName+
       "&password="+ password
       console.log(userName +" pass "+ password + " url "+url)
-      return fetch(url)
+    //   return fetch(url)
  
-    .then((response) => response.json())
-    .then((responseJson) => {
-        //  Alert.alert(responseJson.message)
-        if (responseJson.status) {
+    // .then((response) => response.json())
+    // .then((responseJson) => {
+    //     //  Alert.alert(responseJson.message)
+    //     if (responseJson.status) {
+    //       this.insert(userName,password,"Admin","","")
+    //     }else{
+    //       this.checkDriver(userName,password)
+            
+    //     }
+    //     // console.log(responseJson)
+    //     // this.props.navigation.navigate('UserList')
+    //   return responseJson.status;
+    // })
+    // .catch((error) => {
+    //   console.error(error);
+    // });
+    if (userName=="admin" && password=="admin") {
           this.insert(userName,password,"Admin","","")
         }else{
           this.checkDriver(userName,password)
             
         }
-        // console.log(responseJson)
-        // this.props.navigation.navigate('UserList')
-      return responseJson.status;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
    }
 
    checkDriver(userName,password){
@@ -210,19 +216,19 @@ insert=(user_name,password,loginType,trainer_id,user_id)=>{
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}> */}
-            <View style={styles.viewColor}>
+            <ImageBackground style= { styles.backgroundImage } source={require("../images/bg.png")}>
                 <Text style={styles.textColor}> Login </Text>
                 <TextInput 
                 style={styles.textInputStyle} 
                 placeholder="Enter Name / Number"
-                placeholderTextColor="#afafaf"
+                placeholderTextColor="#18136f"
                 onChangeText={(text) => this.setState({userName : text})}
                 />
                 
                 <TextInput 
                 style={styles.textInputStyle} 
                 placeholder="Enter Password" 
-                placeholderTextColor="#afafaf"
+                placeholderTextColor="#18136f"
                 secureTextEntry={true}
                  onChangeText={(text) => this.setState({password : text})}
                 />
@@ -245,7 +251,7 @@ insert=(user_name,password,loginType,trainer_id,user_id)=>{
                 style={styles.button}>
                 <Text style={styles.buttonStyle}>Login</Text>
                 </TouchableOpacity>
-          </View>
+          </ImageBackground>
          {/* </ScrollView>  
           </SafeAreaView> */}
             </>
@@ -291,7 +297,15 @@ buttonStyle:{
   },
   scrollView: {
     backgroundColor: Colors.lighter,
-  }
+  },
+  backgroundImage:{
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        justifyContent: "center",
+        alignItems: "center",
+        opacity: 0.7
+    },
 
 });
 

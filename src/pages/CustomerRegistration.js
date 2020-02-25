@@ -49,7 +49,7 @@ static navigationOptions =
               'CREATE TABLE IF NOT EXISTS customer_reg(user_id INTEGER PRIMARY KEY AUTOINCREMENT,'+
                'user_name VARCHAR(225), age VARCHAR(225), address VARCHAR(225), llr_number VARCHAR(225),'+
                'licence_number VARCHAR(225), phone_number VARCHAR(15),'+
-               'status VARCHAR(225), password VARCHAR(255), trainerId VARCHAR(255),selected_slot VARCHAR(255))',
+               'status VARCHAR(225), password VARCHAR(255), trainerId VARCHAR(255), selected_slot VARCHAR(255))',
               []
             );
             console.log("table created")
@@ -215,14 +215,14 @@ let data = [{
                 placeholderTextColor="#afafaf"
                 onChangeText={(text) => this.setState({trainerId : text})}
                 />
-
+{/* 
                  <Dropdown
                  style={{color:'#FFF'}}
         label='Select Slot'
         baseColor='#FFF'
         onChangeText={(text) => this.setState({selectedSlot : text})}
         data={this.state.slotdata}
-      />
+      /> */}
                   <TextInput 
                 style={styles.textInputStyle} 
                 placeholder="Enter Licence Number" 
