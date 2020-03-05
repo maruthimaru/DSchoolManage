@@ -77,46 +77,60 @@ Actions.carList()
 }
     render() {
         return (
-            <ImageBackground style= { styles.backgroundImage } source={require("../images/bg.png")}>
-            
+            // <ImageBackground style= { styles.backgroundImage } source={require("../images/bg.png")}>
+            <View style={styles.viewColor}>
+
+            <View style={styles.viewRow}>
             <TouchableOpacity 
                 onPress={(this.moveCarScreen)}
                 style={styles.button}>
-                <Text> New Car </Text>
+                <Text style={styles.buttonStyle}> New Car </Text>
             </TouchableOpacity>
             
             <TouchableOpacity 
             onPress={(this.moveDriverScreen)}
             style={styles.button}>
-                <Text> Driver </Text>
+                <Text style={styles.buttonStyle}> Driver </Text>
             </TouchableOpacity>
+            </View>
+              <View style={styles.viewRow}>
                 <TouchableOpacity 
                 onPress={(this.moveCustomerScreen)}
                 style={styles.button}>
-                <Text> Customer </Text>
+                <Text style={styles.buttonStyle}> Customer </Text>
             </TouchableOpacity>
-
+</View>
             {/* <TouchableOpacity 
                 onPress={(this.moveSlotScreen)}
                 style={styles.button}>
                 <Text> New Slot </Text>
             </TouchableOpacity> */}
-            </ImageBackground>
+            {/*  </ImageBackground> */}
+            </View>
         )
     }
 }
 
 const styles=StyleSheet.create({
     viewColor:{
-    alignContent:"center",
+    // alignContent:"center",
     justifyContent:"center",
-    backgroundColor:"#500077",
-    flex:1
+    backgroundColor:"#FFf",
+    flex:1,
+    flexDirection:'column',
+},
+  viewRow:{
+    // alignContent:"center",
+    // justifyContent:"center",
+    alignSelf:'center',
+    backgroundColor:"#FFf",
+    flexDirection:'row',
 },
     button: {
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    height:35,
+    backgroundColor: '#5fc25f',
+    height:100,
+    width:100,
     justifyContent:"center",
     margin:20,
 
@@ -129,6 +143,15 @@ const styles=StyleSheet.create({
         alignItems: "center",
         opacity: 0.7
     },
+    buttonStyle:{
+    fontSize:16,
+    textAlign:"center",
+    color:"#fff",
+    borderWidth:0,
+    borderColor:"#FFFFFF",
+    // backgroundColor:'#5fc25f',
+    
+},
 })
 
 export default HomeAdmin

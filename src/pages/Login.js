@@ -178,7 +178,8 @@ insert=(user_name,password,loginType,trainer_id,user_id)=>{
             console.log("table created")
           }else{
           
-        txn.executeSql("SELECT * FROM customer_reg where phone_number='"+userName+"' and password ='"+password+"'"
+        txn.executeSql("SELECT * FROM customer_reg where phone_number='"+
+        userName+"' and password ='"+password+"' and licence_number = ''"
         ,[],(tx, res)=>{
           console.log('item:', res.rows.length);
           
@@ -216,19 +217,20 @@ insert=(user_name,password,loginType,trainer_id,user_id)=>{
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}> */}
-            <ImageBackground style= { styles.backgroundImage } source={require("../images/bg.png")}>
+            {/* <ImageBackground style= { styles.backgroundImage } source={require("../images/bg.png")}> */}
+<View style={styles.viewColor}>
                 <Text style={styles.textColor}> Login </Text>
                 <TextInput 
                 style={styles.textInputStyle} 
                 placeholder="Enter Name / Number"
-                placeholderTextColor="#18136f"
+                placeholderTextColor="#dbdbdb"
                 onChangeText={(text) => this.setState({userName : text})}
                 />
                 
                 <TextInput 
                 style={styles.textInputStyle} 
                 placeholder="Enter Password" 
-                placeholderTextColor="#18136f"
+                placeholderTextColor="#dbdbdb"
                 secureTextEntry={true}
                  onChangeText={(text) => this.setState({password : text})}
                 />
@@ -246,12 +248,14 @@ insert=(user_name,password,loginType,trainer_id,user_id)=>{
                ))
                } */}
 
-                <TouchableOpacity 
+                <TouchableOpacity
+                
                 onPress={()=> this.loginGetApi(  this.state.userName,   this.state.password) } 
                 style={styles.button}>
                 <Text style={styles.buttonStyle}>Login</Text>
                 </TouchableOpacity>
-          </ImageBackground>
+                </View>
+          {/* </ImageBackground> */}
          {/* </ScrollView>  
           </SafeAreaView> */}
             </>
@@ -263,36 +267,39 @@ const styles=StyleSheet.create({
 viewColor:{
     alignContent:"center",
     justifyContent:"center",
-    backgroundColor:"#500077",
+    backgroundColor:"#FFFFFF",
     flex:1
 },
 textColor:{
     fontSize:25,
     textAlign:"center",
-    color:"#FFFFFF"
+    color:"#439243"
 },
 textInputStyle:{
     margin:20,
     paddingLeft:5,
     paddingRight:5,
-    color:"#FFFFFF",
+    color:"#439243",
     borderColor:"#dbdbdb",
     borderWidth:0.5,
+    borderRadius:10,
     
 },
 buttonStyle:{
-
     fontSize:25,
     textAlign:"center",
-    color:"#000",
+    color:"#fff",
     borderWidth:0,
-    borderColor:"#FFFFFF"
+    borderColor:"#FFFFFF",
+    // backgroundColor:'#5fc25f',
+    
 },
  button: {
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
+    backgroundColor: '#5fc25f',
     height:35,
     margin:20,
+      
 
   },
   scrollView: {
