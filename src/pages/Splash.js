@@ -81,9 +81,11 @@ console.log("isAdmin "+this.state.isAdmin);
                             </View>)
         }
         return (
-            <ImageBackground style= { styles.backgroundImage } source={require("../images/bg.png")}>
+           <View  style={{flex:1,justifyContent: "center",}}>
+            <Image style= { styles.backgroundImage } source={require("../images/bg.png")}>
                {/* <Image source={require("../images/splash_img.jpeg")} style={{width: 412, height: 324}}/> */}
-            </ImageBackground>
+            </Image>
+            </View>
         )
     }
 }
@@ -105,9 +107,9 @@ const styles=StyleSheet.create({
 
   },
   backgroundImage:{
-        flex: 1,
-        width: '100%',
-        height: '100%',
+        // flex: 1,
+        width: 50,
+        height: 50,
         justifyContent: "center",
         alignItems: "center",
         opacity: 0.7

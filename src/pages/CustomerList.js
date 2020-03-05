@@ -9,6 +9,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import { Actions } from 'react-native-router-flux'
+import SendSMS from 'react-native-sms'
 import { openDatabase } from 'react-native-sqlite-storage';
 import ActionBarImage from '../components/ActionBarImage'
 var db = openDatabase({ name: 'DSchool.db' });
@@ -83,6 +84,25 @@ const constThis=this;
       //    )
     // return true; 
       //  }
+
+      sendSms(){
+        SendSMS.send({
+        //Message body
+        body: "From Driving school, You have "+count +"more day's to complete" ,
+        //Recipients Number
+        recipients: [number],
+        //An array of types that would trigger a "completed" response when using android
+        successTypes: ['sent', 'queued']
+    }, (completed, cancelled, error) => {
+        if(completed){
+          console.log('SMS Sent Completed');
+        }else if(cancelled){
+          console.log('SMS Sent Cancelled');
+        }else if(error){
+          console.log('Some error occured');
+        }
+    });
+      }
 
    newDriver(){
 Actions.customerRegistration()

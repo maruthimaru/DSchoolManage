@@ -91,6 +91,7 @@ Actions.driverRegistration()
 
     const animating = this.state.animating
         return (
+          <View style={styles.viewColor}>
               <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
@@ -100,7 +101,7 @@ Actions.driverRegistration()
              <TouchableOpacity 
     style={styles.button}
     onPress={()=>this.newDriver() }>
-      <Text>New Driver Add</Text>
+      <Text style={styles.buttonStyle}>New Driver Add</Text>
     </TouchableOpacity>
   
           <ActivityIndicator animating={animating}/>
@@ -135,6 +136,7 @@ Actions.driverRegistration()
             </View>
                      </ScrollView>  
           </SafeAreaView>
+          </View>
         )
     }
 }
@@ -142,8 +144,8 @@ Actions.driverRegistration()
 const styles=StyleSheet.create({
 viewColor:{
     alignContent:"center",
-    justifyContent:"center",
-    backgroundColor:"#500077",
+    // justifyContent:"center",
+    backgroundColor:"#FFFFFF",
     flex:1
 },
 textColor:{
@@ -162,41 +164,41 @@ textInputStyle:{
 },
 buttonStyle:{
 
-    fontSize:25,
+    fontSize:15,
     textAlign:"center",
-    color:"#000",
+    color:"#FFFFFF",
     borderWidth:0,
     borderColor:"#FFFFFF"
 },
  button: {
     alignItems: 'center',
     justifyContent:"center",
-    backgroundColor: '#DDDDDD',
+    backgroundColor: '#5fc25f',
     height:35,
     margin:20,
+    borderRadius:10,
   },
   scrollView: {
-    backgroundColor: Colors.lighter,
+borderColor:"#FFFFFF"
   },
   container:{
-    backgroundColor: Colors.lighter,
+    borderColor:"#FFFFFF",
     shadowColor: "#000",
 shadowOffset: {
 	width: 0,
-	height: 2,
+	height: 1,
 },
 shadowOpacity: 0.25,
-shadowRadius: 3.84,
-elevation: 5,
-paddingLeft:5,
-paddingRight:5,
+shadowRadius: 1.84,
+elevation: 1,
+padding:10,
   },
   textDate:{
      textAlign:"right",
   },
 
 listStyle:{
-    backgroundColor: Colors.lighter,
+    borderColor:"#FFFFFF",
     shadowColor: "#d0d0d0",
 shadowOpacity: 0.25,
 shadowRadius: 3.84,

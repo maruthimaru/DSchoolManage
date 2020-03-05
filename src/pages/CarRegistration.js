@@ -106,8 +106,10 @@ insert=(user_name,number)=>{
 
 
         return (
+      <View style={styles.viewColor}>
+
       
-       <SafeAreaView>
+       <SafeAreaView style={{backgroundColor:"#FFFFFF",}}>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}> 
@@ -149,7 +151,7 @@ insert=(user_name,number)=>{
           </View>
           </ScrollView>  
           </SafeAreaView> 
-          
+          </View>
         )
     }
 }
@@ -158,7 +160,7 @@ const styles=StyleSheet.create({
 viewColor:{
     alignContent:"center",
     justifyContent:"center",
-    backgroundColor:"#500077",
+    backgroundColor:"#FFFFFF",
     flex:1
 },
 textColor:{
@@ -170,28 +172,30 @@ textInputStyle:{
     margin:20,
     paddingLeft:5,
     paddingRight:5,
-    color:"#FFFFFF",
+    color:"#439243",
     borderColor:"#dbdbdb",
     borderWidth:0.5,
-    
+    borderRadius:10,
 },
 buttonStyle:{
 
     fontSize:25,
     textAlign:"center",
-    color:"#000",
+    color:"#FFFFFF",
     borderWidth:0,
     borderColor:"#FFFFFF"
 },
  button: {
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
+    backgroundColor: '#5fc25f',
     height:35,
     margin:20,
+    borderRadius:10,
 
   },
   scrollView: {
-    backgroundColor: Colors.lighter,
+    borderColor:"#FFFFFF"
+    
   }
 
 });
