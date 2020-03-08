@@ -29,7 +29,7 @@ export class Login extends Component {
             txn.executeSql('DROP TABLE IF EXISTS login', []);
             txn.executeSql(
               'CREATE TABLE IF NOT EXISTS login(user_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name VARCHAR(225),' +
-              'password VARCHAR(255), type VARCHAR(255), trainer_id VARCHAR(255), customer_id VARCHAR(255))',
+              'password VARCHAR(255), type VARCHAR(255), trainer_id VARCHAR(255), customer_id VARCHAR(255), customer_name VARCHAR(255))',
               []
             );
             console.log("table created")
@@ -56,12 +56,12 @@ export class Login extends Component {
        isAdmin: false}
 
        //insert
-insert=(user_name,password,loginType,trainer_id,user_id)=>{
+insert=(user_name,password,loginType,trainer_id,user_id,customer_name)=>{
   console.log("username : "+user_name +" pass "+ password +" loginType "+loginType+"trainer_id "+trainer_id)
        db.transaction((tx)=> {
             tx.executeSql(
-              'INSERT INTO login(user_name, password,type,trainer_id,customer_id) VALUES (?,?,?,?,?)',
-              [user_name, password,loginType,trainer_id,user_id],
+              'INSERT INTO login(user_name, password,type,trainer_id,customer_id,customer_name) VALUES (?,?,?,?,?,?)',
+              [user_name, password,loginType,trainer_id,user_id,customer_name],
               (tx, results) => {
                 console.log('Results', results.rowsAffected);
                 if (results.rowsAffected > 0) {
@@ -117,7 +117,7 @@ insert=(user_name,password,loginType,trainer_id,user_id)=>{
     //   console.error(error);
     // });
     if (userName=="admin" && password=="admin") {
-          this.insert(userName,password,"Admin","","")
+          this.insert(userName,password,"Admin","","","")
         }else{
           this.checkDriver(userName,password)
             
@@ -151,7 +151,7 @@ insert=(user_name,password,loginType,trainer_id,user_id)=>{
         }
          console.log('DriverDetails:',temp[0].driver_id);
             
-           this.insert(userName,password,"Driver",temp[0].driver_id,"")
+           this.insert(userName,password,"Driver",temp[0].driver_id,"","")
           }else{
             console.log("No data" )
            this.checkCustomer(userName,password)
@@ -190,7 +190,7 @@ insert=(user_name,password,loginType,trainer_id,user_id)=>{
         }
          console.log('DriverDetails:',temp[0].trainerId);
         
-           this.insert(userName,password,"Cusomer",temp[0].trainerId,temp[0].user_id)
+           this.insert(userName,password,"Cusomer",temp[0].trainerId,temp[0].user_id,temp[0].user_name)
           }else{
             console.log("No data" )
            Alert.alert("Invalid login")
@@ -286,7 +286,7 @@ textInputStyle:{
     
 },
 buttonStyle:{
-    fontSize:25,
+    fontSize:15,
     textAlign:"center",
     color:"#fff",
     borderWidth:0,
@@ -299,7 +299,8 @@ buttonStyle:{
     backgroundColor: '#5fc25f',
     height:35,
     margin:20,
-      
+      borderRadius:10,
+      justifyContent:"center",
 
   },
   scrollView: {

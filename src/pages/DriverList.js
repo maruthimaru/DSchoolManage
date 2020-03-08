@@ -21,12 +21,11 @@ static navigationOptions =
       headerRight : <ActionBarImage />,
  
       headerStyle: {
- 
-      backgroundColor: '#FFf'
+   backgroundColor: '#4b964b'
  
     },
  
-    headerTintColor: '#000',
+    headerTintColor: '#fff',
  
    };
 
@@ -198,7 +197,7 @@ padding:10,
   },
 
 listStyle:{
-    borderColor:"#FFFFFF",
+    // borderColor:"#FFFFFF",
     shadowColor: "#d0d0d0",
 shadowOpacity: 0.25,
 shadowRadius: 3.84,

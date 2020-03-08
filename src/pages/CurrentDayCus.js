@@ -30,6 +30,22 @@ var db = openDatabase({ name: 'DSchool.db' });
 
 export class CurrentDayCus extends Component {
 
+
+static navigationOptions =
+   {
+      title: 'Customer Attendance',
+ 
+      headerRight : <ActionBarImage />,
+ 
+      headerStyle: {
+ 
+        backgroundColor: '#4b964b'
+ 
+    },
+ 
+    headerTintColor: '#fff',
+ 
+   };
     constructor(props) {
       super(props)
 
@@ -345,7 +361,7 @@ update=(singleItem)=>{
             <TouchableOpacity 
             onPress={()=> this.SearchList(this.state.searchId)}
             style={styles.button}>
-            <Text> Search </Text>
+            <Text style={styles.buttonStyle}> Search </Text>
             </TouchableOpacity>
 
              <ActivityIndicator animating={animating}/>
@@ -393,28 +409,34 @@ textColor:{
     color:"#FFFFFF"
 },
 textInputStyle:{
-    margin:20,
+    marginLeft:20,
+    marginTop:20,
+    marginRight:20,
     paddingLeft:5,
     paddingRight:5,
     color:"#000000",
     borderColor:"#a6a6a6",
     borderWidth:1,
+    borderRadius:10,
     
 },
 buttonStyle:{
 
-    fontSize:25,
+   fontSize:16,
     textAlign:"center",
-    color:"#000",
+    color:"#fff",
     borderWidth:0,
-    borderColor:"#FFFFFF"
+    borderColor:"#FFFFFF",
+    padding: 5,
+    // backgroundColor:'#5fc25f',
 },
  button: {
    justifyContent:"center",
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
+    backgroundColor: '#5fc25f',
     height:35,
     margin:20,
+  borderRadius:10,
   },
   scrollView: {
     backgroundColor: Colors.lighter,

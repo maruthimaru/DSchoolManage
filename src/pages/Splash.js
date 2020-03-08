@@ -81,8 +81,8 @@ console.log("isAdmin "+this.state.isAdmin);
                             </View>)
         }
         return (
-           <View  style={{flex:1,justifyContent: "center",}}>
-            <Image style= { styles.backgroundImage } source={require("../images/bg.png")}>
+           <View  style={{flex:1,justifyContent: "center",alignItems:'center',backgroundColor: '#FFF',}}>
+            <Image style= { styles.backgroundImage } source={require("../images/splash_img.jpeg")}>
                {/* <Image source={require("../images/splash_img.jpeg")} style={{width: 412, height: 324}}/> */}
             </Image>
             </View>
@@ -100,7 +100,7 @@ const styles=StyleSheet.create({
 },
     button: {
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
+    backgroundColor: '#FFF',
     height:35,
     justifyContent:"center",
     margin:20,
@@ -108,8 +108,9 @@ const styles=StyleSheet.create({
   },
   backgroundImage:{
         // flex: 1,
-        width: 50,
-        height: 50,
+        // width: 50,
+        // height: 50,
+        borderRadius: 200 / 2 ,
         justifyContent: "center",
         alignItems: "center",
         opacity: 0.7

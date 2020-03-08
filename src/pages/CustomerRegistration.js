@@ -24,12 +24,11 @@ static navigationOptions =
       headerRight : <ActionBarImage />,
  
       headerStyle: {
- 
-      backgroundColor: '#FFf'
+   backgroundColor: '#4b964b'
  
     },
  
-    headerTintColor: '#000',
+    headerTintColor: '#fff',
  
    };
 
@@ -179,6 +178,7 @@ let data = [{
                 <TextInput 
                 style={styles.textInputStyle} 
                 placeholder="Enter Age" 
+                keyboardType={'numeric'}
                 placeholderTextColor="#afafaf"
                 onChangeText={(text) => this.setState({age : text})}
                 />
@@ -199,6 +199,7 @@ let data = [{
                 style={styles.textInputStyle} 
                 placeholder="Enter Phone Number" 
                 placeholderTextColor="#afafaf"
+                keyboardType={'numeric'}
                 onChangeText={(text) => this.setState({phoneNumber : text})}
                 />
                 <TextInput 
@@ -261,36 +262,39 @@ const styles=StyleSheet.create({
 viewColor:{
     alignContent:"center",
     justifyContent:"center",
-    backgroundColor:"#500077",
+    backgroundColor:"#FFFFFF",
     flex:1
 },
 textColor:{
-    fontSize:25,
+    fontSize:20,
     textAlign:"center",
-    color:"#FFFFFF"
+    color:"#439243",
+    margin:20,
 },
 textInputStyle:{
     margin:20,
     paddingLeft:5,
     paddingRight:5,
-    color:"#FFFFFF",
+    color:"#439243",
     borderColor:"#dbdbdb",
     borderWidth:0.5,
+    borderRadius:10,
     
 },
 buttonStyle:{
 
     fontSize:25,
     textAlign:"center",
-    color:"#000",
+    color:"#FFFFFF",
     borderWidth:0,
     borderColor:"#FFFFFF"
 },
  button: {
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
+    backgroundColor: '#5fc25f', 
     height:35,
     margin:20,
+    borderRadius:10,
 
   },
   scrollView: {

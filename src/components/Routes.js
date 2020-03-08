@@ -21,7 +21,8 @@ import CurrentDayCus from "../pages/CurrentDayCus";
 import CustomerAttendance from "../pages/CustomerAttendance";
 import CarList from "../pages/CarList";
 import CarRegistration from "../pages/CarRegistration";
-
+import CustomerQrcode from '../pages/CustomerQrcode';
+import AboutUs from '../pages/AboutUs';
 // import SideMenu from '../components/SideMenu'
 import { ToastAndroid ,BackHandler} from 'react-native';
 
@@ -56,7 +57,7 @@ export class  Routes extends React.Component {
     }
 render(){
    return(
-      <Router backAndroidHandler={this.onBackPress}>
+      <Router navigationBarStyle={{ backgroundColor: '#81b71a' }} backAndroidHandler={this.onBackPress}>
       <Stack key = "root">
       <Scene key = "splash" component = {Splash} title = "Splash" hideNavBar={true} initial = {true} />
          <Scene key = "login" component = {Login} title = "Login" hideNavBar={true} />
@@ -79,6 +80,8 @@ render(){
          <Scene key="customerAttendance" component={CustomerAttendance} title="Customer Attendance"/>
          <Scene key="carRegistration" component={CarRegistration} title="Car Registration"/>
          <Scene key="carList" component={CarList} title="Car List"/>
+         <Scene key="customerQrcode" component ={CustomerQrcode} title="Customer code"/>
+         <Scene key ="aboutUs" component ={AboutUs} title="AboutUs"/>
           {/* <Scene
      key="sideMenu" component={HomeAdmin} navTransparent={1}
      navBar={SideMenu}
