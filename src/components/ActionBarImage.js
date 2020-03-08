@@ -40,7 +40,7 @@ Alert.alert(
 }
     render() {
         return (
-            <View>
+            <View style={{}}>
 <TouchableOpacity onPress={()=> this.logout()}>
 
                 <Image source={require("../images/logout.png")}

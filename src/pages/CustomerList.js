@@ -23,12 +23,11 @@ static navigationOptions =
  
       headerStyle: {
  
-      backgroundColor: '#FFf'
+  backgroundColor: '#4b964b'
  
     },
  
-    headerTintColor: '#000',
- 
+    headerTintColor: '#fff', 
    };
 
 
@@ -112,6 +111,7 @@ Actions.customerRegistration()
 const animating = this.state.animating
       
         return (
+          <View style={styles.viewColor}>
               <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
@@ -120,7 +120,7 @@ const animating = this.state.animating
              <TouchableOpacity 
     style={styles.button}
     onPress={()=>this.newDriver() }>
-      <Text>New Customer Add</Text>
+      <Text style={styles.buttonStyle}>New Customer Add</Text>
     </TouchableOpacity>
 
           <ActivityIndicator animating={animating}/>
@@ -158,6 +158,7 @@ const animating = this.state.animating
             </View>
                      </ScrollView>  
           </SafeAreaView>
+          </View>
         )
     }
 }
@@ -165,8 +166,8 @@ const animating = this.state.animating
 const styles=StyleSheet.create({
 viewColor:{
     alignContent:"center",
-    justifyContent:"center",
-    backgroundColor:"#500077",
+    // justifyContent:"center",
+    backgroundColor:"#FFFFFF",
     flex:1
 },
 textColor:{
@@ -185,41 +186,41 @@ textInputStyle:{
 },
 buttonStyle:{
 
-    fontSize:25,
+    fontSize:15,
     textAlign:"center",
-    color:"#000",
+    color:"#FFFFFF",
     borderWidth:0,
     borderColor:"#FFFFFF"
 },
  button: {
    justifyContent:"center",
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
+    backgroundColor: '#5fc25f',
     height:35,
     margin:20,
+    borderRadius:10,
   },
   scrollView: {
-    backgroundColor: Colors.lighter,
+    borderColor:"#FFFFFF"
   },
   container:{
-    backgroundColor: Colors.lighter,
+    borderColor:"#FFFFFF",
     shadowColor: "#000",
 shadowOffset: {
 	width: 0,
 	height: 2,
 },
 shadowOpacity: 0.25,
-shadowRadius: 3.84,
-elevation: 5,
-paddingLeft:5,
-paddingRight:5,
+shadowRadius: 1.84,
+elevation: 1,
+padding:10,
   },
   textDate:{
      textAlign:"right",
   },
 
 listStyle:{
-    backgroundColor: Colors.lighter,
+    // borderColor:"#FFFFFF",
     shadowColor: "#d0d0d0",
 shadowOpacity: 0.25,
 shadowRadius: 3.84,

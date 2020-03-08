@@ -20,12 +20,11 @@ static navigationOptions =
  
       headerStyle: {
  
-      backgroundColor: '#FFf'
+        backgroundColor: '#4b964b'
  
     },
  
-    headerTintColor: '#000',
- 
+    headerTintColor: '#fff', 
    };
 
 // static navigationOptions = ({ navigation }) => {
@@ -75,6 +74,9 @@ Actions.slotList()
 moveCarScreen(){
 Actions.carList()
 }
+moveAboutUsScreen(){
+Actions.aboutUs()
+}
     render() {
         return (
             // <ImageBackground style= { styles.backgroundImage } source={require("../images/bg.png")}>
@@ -98,8 +100,25 @@ Actions.carList()
                 onPress={(this.moveCustomerScreen)}
                 style={styles.button}>
                 <Text style={styles.buttonStyle}> Customer </Text>
+                
             </TouchableOpacity>
+            <TouchableOpacity 
+                // onPress={(this.moveCustomerScreen)}
+                style={styles.button}>
+                <Text style={styles.buttonStyle}> Attendance </Text>
+                
+            </TouchableOpacity>
+
+            
 </View>
+ <View style={styles.viewRow}>
+                <TouchableOpacity 
+                onPress={(this.moveAboutUsScreen)}
+                style={styles.button}>
+                <Text style={styles.buttonStyle}> About us </Text>
+                
+            </TouchableOpacity>
+            </View>
             {/* <TouchableOpacity 
                 onPress={(this.moveSlotScreen)}
                 style={styles.button}>
@@ -133,6 +152,7 @@ const styles=StyleSheet.create({
     width:100,
     justifyContent:"center",
     margin:20,
+    borderRadius:10,
 
   },
   backgroundImage:{

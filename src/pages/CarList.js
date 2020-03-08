@@ -22,11 +22,11 @@ static navigationOptions =
  
       headerStyle: {
  
-      backgroundColor: '#FFf'
+     backgroundColor: '#4b964b'
  
     },
  
-    headerTintColor: '#000',
+    headerTintColor: '#fff',
  
    };
 
