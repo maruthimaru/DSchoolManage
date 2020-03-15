@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Text, View ,StyleSheet,TextInput,Button,Alert,TouchableHighlight,TouchableOpacity,ActivityIndicator,
+import { Text, View ,StyleSheet,TextInput,Button,Alert,
+TouchableHighlight,TouchableOpacity,ActivityIndicator,Image,
 FlatList,SafeAreaView, ScrollView} from 'react-native'
 import {
   Header,
@@ -13,6 +14,8 @@ import { Actions } from 'react-native-router-flux'
 import UserList from './UserList'
 import { openDatabase } from 'react-native-sqlite-storage';
 import ActionBarImage from '../components/ActionBarImage'
+import ImagePicker from 'react-native-image-picker';
+import ImgToBase64 from 'react-native-image-base64';
 var db = openDatabase({ name: 'DSchool.db' });
 
 export class CustomerRegistration extends Component {
@@ -48,7 +51,7 @@ static navigationOptions =
               'CREATE TABLE IF NOT EXISTS customer_reg(user_id INTEGER PRIMARY KEY AUTOINCREMENT,'+
                'user_name VARCHAR(225), age VARCHAR(225), address VARCHAR(225), llr_number VARCHAR(225),'+
                'licence_number VARCHAR(225), phone_number VARCHAR(15),'+
-               'status VARCHAR(225), password VARCHAR(255), trainerId VARCHAR(255), selected_slot VARCHAR(255))',
+               'status VARCHAR(225), password VARCHAR(255), trainerId VARCHAR(255), selected_slot VARCHAR(255), due_date VARCHAR(25), image VARCHAR(255))',
               []
             );
             console.log("table created")
@@ -82,6 +85,8 @@ static navigationOptions =
        trainerId: '',
        selectedSlot:'',
        isLoading: true,
+       ImageSource: '',
+       imgToBase64:"",
        slotdata:[],}
 
         slotList(){
@@ -120,14 +125,60 @@ static navigationOptions =
 
       }
 
+
+  selectPhotoTapped() {
+    const options = {
+      quality: 1.0,
+      maxWidth: 500,
+      maxHeight: 500,
+      storageOptions: {
+        skipBackup: true
+      }
+    };
+
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response.uri);
+
+      if (response.didCancel) {
+        console.log('User cancelled photo picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
+               ImgToBase64.getBase64String(response.uri)
+  .then(base64String => {
+    console.log("base64String");
+  console.log(base64String);
+  this.setState({
+    imgToBase64:base64String,
+    ImageSource: source,
+    isImage:true,
+  });
+  })
+  .catch(err => doSomethingWith(err));
+     
+
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+      }
+    });
+  }
+
        //insert
 insert=(user_name,age,address,llrNumber,licenceNumber,phoneNumber,status,password,trainerId,selectedSlot)=>{
   console.log("username : "+user_name +"age "+age +" llr "+llrNumber+" licence "+licenceNumber +" phone " 
   +phoneNumber+" status "+status+" pass "+ password+" selectedSlot "+selectedSlot)
+  const image=this.state.imgToBase64
        db.transaction((tx)=> {
             tx.executeSql(
-              'INSERT INTO customer_reg(user_name, age, address, llr_number,licence_number,phone_number,status,password,trainerId,selected_slot) VALUES (?,?,?,?,?,?,?,?,?,?)',
-              [user_name,age,address,llrNumber,licenceNumber,phoneNumber,status, password,trainerId,selectedSlot],
+              'INSERT INTO customer_reg(user_name, age, address, llr_number,licence_number,phone_number,status,password,trainerId,selected_slot,image) VALUES (?,?,?,?,?,?,?,?,?,?,?)',
+              [user_name,age,address,llrNumber,licenceNumber,phoneNumber,status, password,trainerId,selectedSlot,image],
               (tx, results) => {
                 console.log('Results', results.rowsAffected);
                 if (results.rowsAffected > 0) {
@@ -161,6 +212,7 @@ let data = [{
     }, {
       value: '07-00AM - 08-00AM',
     }];
+    const imageSource=this.state.ImageSource
         return (
       
        <SafeAreaView>
@@ -168,7 +220,28 @@ let data = [{
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}> 
             <View style={styles.viewColor}>
-                <Text style={styles.textColor}> Customer Registration </Text>
+           <View  style={styles.image_item}>
+              <Text style={styles.textColor}> Customer Registration </Text>
+                                <Image
+                                 source = { this.state.isImage 
+                                  ? 
+                                   imageSource
+                                  : 
+                                  require('../images/avatar_image.png')}
+                                style={styles.image}/>
+                                {/* <Thumbnail
+                                 source = { imageSource }
+                                style={styles.image}
+
+                                /> */}
+                            <TouchableHighlight
+                             style={styles.image_capture} onPress={this.selectPhotoTapped.bind(this)}>   
+                              
+
+                            <Text>Take photo</Text>
+                            </TouchableHighlight>
+                            </View>
+             
                 <TextInput 
                 style={styles.textInputStyle} 
                 placeholder="Enter Name" 
@@ -224,12 +297,7 @@ let data = [{
         onChangeText={(text) => this.setState({selectedSlot : text})}
         data={this.state.slotdata}
       /> */}
-                  <TextInput 
-                style={styles.textInputStyle} 
-                placeholder="Enter Licence Number" 
-                placeholderTextColor="#afafaf"
-                onChangeText={(text) => this.setState({licenceNumber : text})}
-                />
+                  
 
                {/* {
                 this.state.data.map((item, index) => (
@@ -300,7 +368,47 @@ buttonStyle:{
   scrollView: {
      alignContent:"center",
     backgroundColor:"#500077",
-  }
+  },
+    image: {
+        // flex:1,
+        width: 100,
+        height: 100,
+        // aspectRatio: 1.5, 
+        borderRadius: 150 / 2,
+        overflow: "hidden",
+        // borderWidth: 1,
+        resizeMode: 'cover',
+        alignSelf: 'center',
+        borderColor: "#422F86",
+        marginBottom: 10,
+      },
+       image_capture: {
+        // flex:1,
+        width: 100,
+        // height: 24,
+        // justifyContent: 'flex-end',
+        alignItems: 'center',
+        alignSelf:'center',
+        // position: 'absolute',
+        bottom:10,
+        // aspectRatio: 1.5, 
+        borderRadius: 150 / 2,
+        overflow: "hidden",
+        borderWidth: 1,
+        resizeMode: 'cover',
+        // alignSelf: 'bottom',
+        borderColor: "green",
+        marginTop: 10,
+      }, 
+      image_item: {
+        // flex: 1,
+        justifyContent: 'flex-end',
+        borderColor: "#00000000",
+        marginTop:20,
+        // alignItems:'center',
+        // justifyContent: 'center',
+        // paddingBottom: check.isAndroid ? 14 : 0
+      },
 
 });
 
