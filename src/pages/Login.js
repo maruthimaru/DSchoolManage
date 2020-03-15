@@ -29,7 +29,7 @@ export class Login extends Component {
             txn.executeSql('DROP TABLE IF EXISTS login', []);
             txn.executeSql(
               'CREATE TABLE IF NOT EXISTS login(user_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name VARCHAR(225),' +
-              'password VARCHAR(255), type VARCHAR(255), trainer_id VARCHAR(255), customer_id VARCHAR(255), customer_name VARCHAR(255))',
+              'password VARCHAR(255), type VARCHAR(255), trainer_id VARCHAR(255), customer_id VARCHAR(255), customer_name VARCHAR(255),image VARCHAR(255))',
               []
             );
             console.log("table created")
@@ -56,12 +56,12 @@ export class Login extends Component {
        isAdmin: false}
 
        //insert
-insert=(user_name,password,loginType,trainer_id,user_id,customer_name)=>{
+insert=(user_name,password,loginType,trainer_id,user_id,customer_name,image)=>{
   console.log("username : "+user_name +" pass "+ password +" loginType "+loginType+"trainer_id "+trainer_id)
        db.transaction((tx)=> {
             tx.executeSql(
-              'INSERT INTO login(user_name, password,type,trainer_id,customer_id,customer_name) VALUES (?,?,?,?,?,?)',
-              [user_name, password,loginType,trainer_id,user_id,customer_name],
+              'INSERT INTO login(user_name, password,type,trainer_id,customer_id,customer_name,image) VALUES (?,?,?,?,?,?,?)',
+              [user_name, password,loginType,trainer_id,user_id,customer_name,image],
               (tx, results) => {
                 console.log('Results', results.rowsAffected);
                 if (results.rowsAffected > 0) {
@@ -117,7 +117,7 @@ insert=(user_name,password,loginType,trainer_id,user_id,customer_name)=>{
     //   console.error(error);
     // });
     if (userName=="admin" && password=="admin") {
-          this.insert(userName,password,"Admin","","","")
+          this.insert(userName,password,"Admin","","","","")
         }else{
           this.checkDriver(userName,password)
             
@@ -151,7 +151,7 @@ insert=(user_name,password,loginType,trainer_id,user_id,customer_name)=>{
         }
          console.log('DriverDetails:',temp[0].driver_id);
             
-           this.insert(userName,password,"Driver",temp[0].driver_id,"","")
+           this.insert(userName,password,"Driver",temp[0].driver_id,"",temp[0].user_name,temp[0].image)
           }else{
             console.log("No data" )
            this.checkCustomer(userName,password)
@@ -166,6 +166,8 @@ insert=(user_name,password,loginType,trainer_id,user_id,customer_name)=>{
               });
    }
    checkCustomer(userName,password){
+     var date1 = new Date();
+    
        console.log(userName +" pass "+ password )
       db.transaction((txn)=> {
            txn.executeSql(
@@ -179,18 +181,26 @@ insert=(user_name,password,loginType,trainer_id,user_id,customer_name)=>{
           }else{
           
         txn.executeSql("SELECT * FROM customer_reg where phone_number='"+
-        userName+"' and password ='"+password+"' and licence_number = ''"
+        userName+"' and password ='"+password+"'"
         ,[],(tx, res)=>{
-          console.log('item:', res.rows.length);
+          console.log('cus item:', res.rows.length);
           
           if (res.rows.length != 0) {
                 var temp = [];
         for (let i = 0; i < res.rows.length; ++i) {
           temp.push(res.rows.item(i));
         }
-         console.log('DriverDetails:',temp[0].trainerId);
+        var date2 = new Date(temp[0].due_date);
+         console.log('customer details:',temp[0].due_date);
+        var same = date1.getTime() <= date2.getTime();
+        console.log("same : " +same);
         
-           this.insert(userName,password,"Cusomer",temp[0].trainerId,temp[0].user_id,temp[0].user_name)
+    // var notSame = date1.getTime() >= date2.getTime();
+    if(same || temp[0].due_date==null){
+           this.insert(userName,password,"Cusomer",temp[0].trainerId,temp[0].user_id,temp[0].user_name,temp[0].image)
+    }else{
+      Alert.alert("Invalid login")
+    }
           }else{
             console.log("No data" )
            Alert.alert("Invalid login")

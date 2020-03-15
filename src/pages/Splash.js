@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Text, View ,Image,StyleSheet,ImageBackground} from 'react-native'
+import { Text, View ,Image,StyleSheet,ImageBackground,PermissionsAndroid} from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import Routes from '../../src/routes'
 import { openDatabase } from 'react-native-sqlite-storage';
 var db = openDatabase({ name: 'DSchool.db' });
 var isAdmin= false;
+const name = require('../../package.json').name
 export default class Splash extends Component {
 
   state={
@@ -13,12 +14,54 @@ export default class Splash extends Component {
 
 
   componentDidMount() {
-     
-          setTimeout(() => {
+     this.requestCameraPermission()
+            
+  }
+
+
+    requestCameraPermission() {
+        try {
+            var context=this
+          const granted =  PermissionsAndroid.requestMultiple([
+            PermissionsAndroid.PERMISSIONS.CAMERA,
+            PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE]).then((result) => {
+                if (result['android.permission.CAMERA']
+                && result['android.permission.READ_EXTERNAL_STORAGE']
+                && result['android.permission.WRITE_EXTERNAL_STORAGE'] === 'granted') {
+                    console.log("granted");
+                   setTimeout(() => {
                 this.moveScreen()
             // Actions.login()
-              }, 3000);    
-  }
+              }, 3000); 
+                    return 'granted'
+                  
+                } else if (result['android.permission.CAMERA']
+                || result['android.permission.READ_EXTERNAL_STORAGE']
+                || result['android.permission.WRITE_EXTERNAL_STORAGE'] === 'never_ask_again') {
+                    
+                    alert('Please Go into Settings -> Applications -> '+name+' -> Permissions and Allow permissions to continue')
+                
+                  return 'denied'
+                }
+              });
+              console.log('You can use the permission granted' +PermissionsAndroid.RESULTS.GRANTED);
+        //   if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        //     console.log('You can use the permission granted');
+        //     // this.setState({
+        //     //     permissionsGranted: true
+        //     //   });
+             
+           
+            
+        //   } else {
+        //     console.log('Camera permission denied');
+        //     permissionsGranted=false
+        //   }
+        } catch (err) {
+          console.warn(err);
+        }
+      }
   
 
 moveScreen(){

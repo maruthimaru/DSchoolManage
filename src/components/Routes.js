@@ -23,6 +23,8 @@ import CarList from "../pages/CarList";
 import CarRegistration from "../pages/CarRegistration";
 import CustomerQrcode from '../pages/CustomerQrcode';
 import AboutUs from '../pages/AboutUs';
+import LicenceDetails from '../pages/LicenceDetails';
+import CurrentDayDriver from '../pages/CurrentDayDriver';
 // import SideMenu from '../components/SideMenu'
 import { ToastAndroid ,BackHandler} from 'react-native';
 
@@ -82,6 +84,8 @@ render(){
          <Scene key="carList" component={CarList} title="Car List"/>
          <Scene key="customerQrcode" component ={CustomerQrcode} title="Customer code"/>
          <Scene key ="aboutUs" component ={AboutUs} title="AboutUs"/>
+         <Scene key ="licenceDetails" component ={LicenceDetails} title="Licence Details"/>
+         <Scene key ="currentDayDriver" component ={CurrentDayDriver} title="Current Day Driver"/>
           {/* <Scene
      key="sideMenu" component={HomeAdmin} navTransparent={1}
      navBar={SideMenu}

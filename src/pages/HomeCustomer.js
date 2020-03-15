@@ -31,6 +31,7 @@ static navigationOptions =
         noOfClass:'',
         customerId:'',
         customerName:'',
+        image:'',
      };
      var constThis=this
 
@@ -45,9 +46,12 @@ static navigationOptions =
         for (let i = 0; i < res.rows.length; ++i) {
           temp.push(res.rows.item(i));
         }                
+        global.customerId=temp[0].customer_id
+        console.log(temp[0]);
         this.setState({
             customerId:temp[0].customer_id,
             customerName:temp[0].customer_name,
+            image:temp[0].image,
         });
         console.log('loginitem2:', temp[0].customer_id);
         constThis.CurrentList(temp[0].customer_id)
@@ -89,11 +93,31 @@ Actions.customerQrcode({customerId:customerId})
 moveAboutUsScreen(){
 Actions.aboutUs()
 }
+moveLicenceDetailsScreen(){
+Actions.licenceDetails()
+}
     render() {
+        
         return (
             // <ImageBackground style= { styles.backgroundImage } source={require("../images/bg.png")}>
             // {/* <Image source={require("../images/bg.png")} style={{flex:1}}/> */}
             <View style={styles.viewColor}>
+              <View  style={styles.image_item}>
+                                {/*<Image
+                                 source = { item.image
+                                  ? 
+                               
+                                   {uri: `data:image/gif;base64,${item.image}`}
+                                  
+                                  : 
+                                  require('../images/avatar_image.png')}
+                                style={styles.image}/>*/}
+                               
+                                 <Image
+                                 source = {{uri: "data:image/png;base64,"+this.state.image}}
+                                style={styles.image}/>
+                        
+                            </View>
             <Text style={styles.textWelcome}>
                 Welcome <Text style={styles.textWelcomeBold}>{this.state.customerName}
             </Text></Text>
@@ -114,25 +138,28 @@ Actions.aboutUs()
             </TouchableOpacity>
 </View>
 <View style={styles.viewRow}>
-            <TouchableOpacity 
-                onPress={()=>this.moveQrcode(this.state.customerId)}
-                style={styles.button}>
-                <Text style={styles.buttonStyle}> QR-code </Text>
-            </TouchableOpacity>
+           
                         <TouchableOpacity 
-                // onPress={()=>this.moveCustomerScreen(this.state.noOfClass)}
+                onPress={()=>this.moveLicenceDetailsScreen(this.state.noOfClass)}
                 style={styles.button}>
                 <Text style={styles.buttonStyle}> License details</Text>
             </TouchableOpacity>
+             <TouchableOpacity 
+                // onPress={()=>this.moveQrcode(this.state.customerId)}
+                onPress={()=>this.moveAboutUsScreen()}
+                style={styles.button}>
+                <Text style={styles.buttonStyle}> About us </Text>
+            </TouchableOpacity>
             </View>
-            <View style={styles.viewRow}>
+           {/* <View style={styles.viewRow}>
      <TouchableOpacity 
                 onPress={()=>this.moveAboutUsScreen()}
                 style={styles.button}>
                 <Text style={styles.buttonStyle}> About us</Text>
             </TouchableOpacity>
             </View>
-            {/* // </ImageBackground> */}
+             // </ImageBackgroun
+            d> */}
             </View>
         )
     }
@@ -170,6 +197,7 @@ borderRadius:10,
  textWelcome:{
     fontSize:16,
     textAlign:"left",
+    alignSelf: 'center',
     color:"#5fc25f",
     marginLeft:20,
 },
@@ -198,6 +226,19 @@ backgroundImage:{
     // backgroundColor:'#5fc25f',
     
 },
+image: {
+        // flex:1,
+        width: 64,
+        height: 64,
+        // aspectRatio: 1.5, 
+        borderRadius: 150 / 2,
+        overflow: "hidden",
+        // borderWidth: 1,
+        resizeMode: 'cover',
+        alignSelf: 'center',
+        borderColor: "#422F86",
+        marginBottom: 10,
+      },
 })
 
 export default HomeCustomer

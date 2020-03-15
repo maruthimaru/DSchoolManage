@@ -77,6 +77,9 @@ Actions.carList()
 moveAboutUsScreen(){
 Actions.aboutUs()
 }
+moveCurrentDayDriverScreen(){
+Actions.currentDayDriver()
+}
     render() {
         return (
             // <ImageBackground style= { styles.backgroundImage } source={require("../images/bg.png")}>
@@ -103,7 +106,7 @@ Actions.aboutUs()
                 
             </TouchableOpacity>
             <TouchableOpacity 
-                // onPress={(this.moveCustomerScreen)}
+                onPress={(this.moveCurrentDayDriverScreen)}
                 style={styles.button}>
                 <Text style={styles.buttonStyle}> Attendance </Text>
                 
