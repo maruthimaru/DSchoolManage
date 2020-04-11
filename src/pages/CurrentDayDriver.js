@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View,TextInput,TouchableOpacity,StyleSheet,Alert,ActivityIndicator } from 'react-native'
+import { Text, View,TextInput,TouchableOpacity,StyleSheet,Alert,ActivityIndicator,Image, } from 'react-native'
 import {
   Header,
   LearnMoreLinks,
@@ -33,7 +33,7 @@ export class CurrentDayCus extends Component {
 
 static navigationOptions =
    {
-      title: 'Customer Attendance',
+      title: 'Driver Attendance',
  
       headerRight : <ActionBarImage />,
  
@@ -324,6 +324,34 @@ update=(singleItem)=>{
                     { cancelable: false }
                   );
 }
+
+
+  delete(selecteditem) {
+    Alert.alert('Car List', 'Are you sure want to Delete?', [
+      {text: 'No'},
+      {
+        text: 'Yes',
+        onPress: () => {
+          db.transaction(txn => {
+            txn.executeSql(
+              'DELETE FROM today_driver_reg where user_id=?',
+              [selecteditem.user_id],
+              (tx, res) => {
+                console.log('item:', res.rows.length);
+                const filteredData = this.state.dataSource.filter(
+                  item => item.user_id !== selecteditem.user_id,
+                );
+                this.setState({
+                  dataSource: filteredData,
+                });
+              },
+            );
+          });
+        },
+      },
+    ]);
+  }
+
     render() {
       const animating = this.state.animating
         return (
@@ -342,11 +370,13 @@ update=(singleItem)=>{
 
              <ActivityIndicator animating={animating}/>
         {this.state.dataSource.map((item, index) => (
-              <TouchableOpacity
-              style = {styles.listStyle}
+            
+            <View style={styles.container}>
+             
+                  <TouchableOpacity
+              
                 key = {item}
                 onPress = {() =>  this.update(item)}>
-                <View style = {styles.container}>
                 <Text style = {styles.text}>
                     {item.user_name}
                 </Text>
@@ -362,8 +392,18 @@ update=(singleItem)=>{
 
                 <Text style = {styles.textDate}>Training: {item.start} - {item.end}
                 </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                onPress={() => this.delete(item)}
+                style={styles.listStyleTrash}
+                key={item}>
+                <Image
+                  style={styles.imageTrash}
+                  source={require('../images/trash.png')}
+                />
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
+              
           ))
         }
                 
@@ -422,7 +462,8 @@ buttonStyle:{
     shadowColor: "#000",
 shadowOffset: {
 	width: 0,
-	height: 2,
+  height: 2,
+  flexDirection:'column',
 },
 shadowOpacity: 0.25,
 shadowRadius: 3.84,
@@ -431,7 +472,7 @@ paddingLeft:5,
 paddingRight:5,
   },
   textDate:{
-     textAlign:"right",
+    //  textAlign:"right",
   },
 
 listStyle:{
@@ -441,6 +482,25 @@ shadowOpacity: 0.25,
 shadowRadius: 3.84,
 elevation: 2,
 margin:3,
+  },
+  listStyleTrash: {
+    // backgroundColor: Colors.lighter,
+    shadowColor: '#d0d0d0',
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 2,
+    margin: 3,
+    position: 'absolute',
+    alignSelf: 'flex-end',
+    width: 24,
+    height: 24,
+    top: 10,
+    // padding: 10,
+  },
+  imageTrash: {
+    width: 24,
+    height: 24,
+    marginRight: 3,
   },
 });
 
