@@ -28,7 +28,7 @@ static navigationOptions =
  
     },
  
-    headerTintColor: '#fff', 
+    headerTintColor: '#fff',
    };
 
 
@@ -63,7 +63,7 @@ const constThis=this;
               isLoading:false,
               animating:false,
           dataSource: temp,
-          }); 
+          });
           console.log('dataSource:', this.state.dataSource);
           }else{
             console.log("No data" )
@@ -188,7 +188,80 @@ var year = currentDate.getFullYear()
 }
 
 
-    render() {
+editDriver(item) {
+  Actions.customerUpdate({item: item});
+}
+
+
+delete(selecteditem) {
+  Alert.alert('Customer List', 'Are you sure want to Delete?', [
+    {text: 'No'},
+    {
+      text: 'Yes',
+      onPress: () => {
+        db.transaction(txn => {
+          txn.executeSql(
+            'DELETE FROM customer_reg where user_id=?',
+            [selecteditem.user_id],
+            (tx, res) => {
+              console.log('item:', res.rows.length);
+              const filteredData = this.state.dataSource.filter(
+                item => item.user_id !== selecteditem.user_id,
+              );
+              this.setState({
+                dataSource: filteredData,
+              });
+            },
+          );
+        });
+      },
+    },
+  ]);
+}
+
+  SearchList(name) {
+    var constThis = this;
+    console.log('name : ' + name);
+    db.transaction(txn => {
+      txn.executeSql(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='customer_reg'",
+        [],
+        (tx, res) => {
+          console.log('item:', res.rows.length);
+          if (res.rows.length > 0) {
+            db.transaction(txn => {
+              txn.executeSql(
+                "SELECT * FROM customer_reg where user_name LIKE '" +
+                name +
+                  "' or phone_number LIKE '" +
+                  name +
+                  "'",
+                [],
+                (tx, res) => {
+                  console.log('item:', res.rows.length);
+                  if (res.rows.length > 0) {
+                    var temp = [];
+                    for (let i = 0; i < res.rows.length; ++i) {
+                      temp.push(res.rows.item(i));
+                    }
+                    constThis.setState({
+                      isLoading: false,
+                      animating: false,
+                      dataSource: temp,
+                    });
+                  } else {
+                    alert('No Data found')
+                  }
+                },
+              );
+            });
+          }
+        },
+      );
+    });
+  }
+
+  render() {
 const animating = this.state.animating
       
         return (
@@ -237,6 +310,17 @@ const animating = this.state.animating
             </View>
           </View>
         </Modal>
+
+        <TextInput 
+            style={styles.textSearchInputStyle}
+            placeholder="Search Name/number" 
+            onChangeText={(text)=> this.setState({searchId: text})}
+            />
+            <TouchableOpacity 
+            onPress={()=> this.SearchList(this.state.searchId)}
+            style={styles.button}>
+            <Text style={styles.searchButtonStyle}> Search </Text>
+            </TouchableOpacity>
 
              <TouchableOpacity 
     style={styles.button}
@@ -296,6 +380,24 @@ return(
                         
                             </View>
                 <View style = {styles.content}>
+                <TouchableOpacity
+                    onPress={() => context.editDriver(item)}
+                    style={styles.listStyleEdit}
+                    key={item}>
+                    <Image
+                      style={styles.imageEdit}
+                      source={require('../images/edit.png')}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => context.delete(item)}
+                    style={styles.listStyleTrash}
+                    key={item}>
+                    <Image
+                      style={styles.imageTrash}
+                      source={require('../images/trash.png')}
+                    />
+                  </TouchableOpacity>
                 <Text style = {styles.text}>
                     {item.user_name}
                 </Text>
@@ -344,6 +446,14 @@ buttonStyle:{
     borderWidth:0,
     borderColor:"#FFFFFF"
 },
+searchButtonStyle:{
+
+  fontSize:15,
+  textAlign:"center",
+  color:"#FFFFFF",
+  borderWidth:0,
+  borderColor:"#FFFFFF"
+},
 image: {
         // flex:1,
         width: 64,
@@ -385,13 +495,14 @@ flexDirection:'row',
     borderColor:"#FFFFFF",
     // shadowColor: "#000",
 padding:10,
+flex: 1,
 flexDirection:'column',
   },
   textDate:{
      textAlign:"right",
   },
   textDate:{
-     textAlign:"right",
+    //  textAlign:"right",
   },
 
 listStyle:{
@@ -448,6 +559,54 @@ margin:3,
     borderWidth:0.5,
     borderRadius:10,
     
+},
+textSearchInputStyle:{
+  margin:5,
+  paddingLeft:5,
+  paddingRight:5,
+  color:"#439243",
+  borderColor:"#dbdbdb",
+  borderWidth:0.5,
+  borderRadius:10,
+  
+},
+listStyleEdit: {
+  // backgroundColor: Colors.lighter,
+  shadowColor: '#d0d0d0',
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 2,
+  // margin: 3,
+  // position: 'absolute',
+  alignSelf: 'flex-end',
+  width: 24,
+  height: 24,
+  marginRight: 33,
+  // padding: 10,
+},
+listStyleTrash: {
+  // backgroundColor: Colors.lighter,
+  shadowColor: '#d0d0d0',
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 2,
+  margin: 3,
+  position: 'absolute',
+  alignSelf: 'flex-end',
+  width: 24,
+  height: 24,
+  top: 10,
+  // padding: 10,
+},
+imageEdit: {
+  width: 24,
+  height: 24,
+  marginRight: 33,
+},
+imageTrash: {
+  width: 24,
+  height: 24,
+  marginRight: 3,
 },
 });
 

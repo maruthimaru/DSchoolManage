@@ -26,7 +26,7 @@ import {openDatabase} from 'react-native-sqlite-storage';
 import ActionBarImage from '../components/ActionBarImage';
 var db = openDatabase({name: 'DSchool.db'});
 var item;
-export class CarRegistration extends Component {
+export class CarUpdate extends Component {
   static navigationOptions = {
     title: 'Home',
 
@@ -49,6 +49,7 @@ export class CarRegistration extends Component {
     ],
     userName: '',
     number: '',
+    id: 0,
     isLoading: true,
   };
 
@@ -88,23 +89,29 @@ export class CarRegistration extends Component {
       this.setState({
         userName: item.user_name,
         number: item.number,
+        id: item.id,
       });
     }
   }
 
   //insert
-  insert = (user_name, number) => {
-    console.log('username : ' + user_name + ' pass ' + number);
+  insert = (user_name, number, id) => {
+    console.log('username : ' + user_name + ' pass ' + number + ' id ' + id);
     db.transaction(function(tx) {
       tx.executeSql(
-        'INSERT INTO car_reg(user_name, number) VALUES (?,?)',
-        [user_name, number],
+        "UPDATE car_reg set user_name = '" +
+          user_name +
+          "', number = '" +
+          number +
+          "' WHERE id=" +
+          id,
+        [],
         (tx, results) => {
           console.log('Results', results.rowsAffected);
           if (results.rowsAffected > 0) {
             Alert.alert(
               'Success',
-              'You are Registered Successfully',
+              'You are Update Successfully',
               [
                 {
                   text: 'Ok',
@@ -163,10 +170,14 @@ export class CarRegistration extends Component {
 
               <TouchableOpacity
                 onPress={() =>
-                  this.insert(this.state.userName, this.state.number)
+                  this.insert(
+                    this.state.userName,
+                    this.state.number,
+                    this.state.id,
+                  )
                 }
                 style={styles.button}>
-                <Text style={styles.buttonStyle}>Register</Text>
+                <Text style={styles.buttonStyle}>Update</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -216,4 +227,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CarRegistration;
+export default CarUpdate;
