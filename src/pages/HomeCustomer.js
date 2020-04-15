@@ -5,6 +5,7 @@ import CustomerList from './CustomerList'
 import { Actions } from 'react-native-router-flux'
 import ActionBarImage from '../components/ActionBarImage'
 import { openDatabase } from 'react-native-sqlite-storage';
+import moment from 'moment';
 var db = openDatabase({ name: 'DSchool.db' });
 export class HomeCustomer extends Component {
 
@@ -32,6 +33,7 @@ static navigationOptions =
         customerId:'',
         customerName:'',
         image:'',
+        isLeave: 'false',
      };
      var constThis=this
 
@@ -57,6 +59,26 @@ static navigationOptions =
         constThis.CurrentList(temp[0].customer_id)
           }
         });
+              });
+
+              db.transaction(txn => {
+                txn.executeSql('SELECT * FROM holiday_reg where date=?', [moment(new Date()).format('YYYY-MM-DD')], (tx, res) => {
+                  console.log('item:', res.rows.length);
+          
+                  if (res.rows.length != 0) {
+                    constThis.setState({
+                      isLeave: 'Yes',
+                    });
+                    console.log('dataSource:', res.rows);
+                  } else {
+                    console.log('No data');
+                    console.log(' datasource1 ');
+                    constThis.setState({
+                      isLeave: 'No',
+                    });
+                    console.log(' datasource ' + this.state.dataSource);
+                  }
+                });
               });
 
    };
@@ -124,7 +146,9 @@ Actions.licenceDetails()
             <Text style={styles.textWelcome}>
                 This is your Customer Id : {this.state.customerId}
             </Text>
-
+            <Text style={styles.textWelcome}>
+                Is today Leave : {this.state.isLeave}
+            </Text>
 <View style={styles.viewRow}>
             <TouchableOpacity 
             onPress={(this.moveDriverScreen)}
