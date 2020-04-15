@@ -81,6 +81,9 @@ export class HomeAdmin extends Component {
   moveCurrentDayDriverScreen() {
     Actions.currentDayDriver();
   }
+  moveHolidayScreen() {
+    Actions.holidayList();
+  }
   render() {
     return (
       // <ImageBackground style= { styles.backgroundImage } source={require("../images/bg.png")}>
@@ -109,6 +112,11 @@ export class HomeAdmin extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.viewRow}>
+          <TouchableOpacity
+            onPress={this.moveHolidayScreen}
+            style={styles.button}>
+            <Text style={styles.buttonStyle}> Leave </Text>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={this.moveAboutUsScreen}
             style={styles.button}>

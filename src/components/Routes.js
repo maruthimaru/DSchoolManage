@@ -29,6 +29,8 @@ import CarUpdate from '../pages/CarUpdate';
 import DriverUpdate from '../pages/DriverUpdate';
 import CustomerUpdate from '../pages/CustomerUpdate';
 // import SideMenu from '../components/SideMenu'
+import HolidayReg from '../pages/HolidayReg';
+import HolidayList from '../pages/HolidayList';
 import {ToastAndroid, BackHandler} from 'react-native';
 
 var backButtonPressedOnceToExit = false;
@@ -169,6 +171,12 @@ export class Routes extends React.Component {
             key="customerUpdate"
             component={CustomerUpdate}
             title="Customer Update"
+          />
+          <Scene key="holidayReg" component={HolidayReg} title="Holiday Reg" />
+          <Scene
+            key="holidayList"
+            component={HolidayList}
+            title="Holiday List"
           />
           {/* <Scene
      key="sideMenu" component={HomeAdmin} navTransparent={1}
