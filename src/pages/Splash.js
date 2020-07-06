@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View ,Image,StyleSheet,ImageBackground,PermissionsAndroid} from 'react-native'
 import { Actions } from 'react-native-router-flux'
-import Routes from '../../src/routes'
 import { openDatabase } from 'react-native-sqlite-storage';
 var db = openDatabase({ name: 'DSchool.db' });
 var isAdmin= false;
@@ -117,12 +116,12 @@ txn.executeSql(
         };
 console.log("isAdmin "+this.state.isAdmin);
 
-        if (this.state.isAdmin) {
-          return(
-                           <View  style={{flex:1}}>
-                            <Routes/>
-                            </View>)
-        }
+        // if (this.state.isAdmin) {
+        //   return(
+        //                    <View  style={{flex:1}}>
+        //                     <Routes/>
+        //                     </View>)
+        // }
         return (
            <View  style={{flex:1,justifyContent: "center",alignItems:'center',backgroundColor: '#FFF',}}>
             <Image style= { styles.backgroundImage } source={require("../images/splash_img.jpeg")}>
