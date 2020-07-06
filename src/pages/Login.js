@@ -10,7 +10,6 @@ import {
 } from 'react-native/Libraries/NewAppScreen'
 import { Actions } from 'react-native-router-flux'
 import HomeAdmin from './HomeAdmin'
-import Routes from '../../src/routes'
 import { openDatabase } from 'react-native-sqlite-storage';
 var db = openDatabase({ name: 'DSchool.db' });
 
@@ -213,12 +212,12 @@ insert=(user_name,password,loginType,trainer_id,user_id,customer_name,image)=>{
    }
 
     render() {
-        if (this.state.isAdmin) {
-          return(
-                           <View  style={{flex:1}}>
-                            <Routes/>
-                            </View>)
-        }
+        // if (this.state.isAdmin) {
+        //   return(
+        //                    <View  style={{flex:1}}>
+        //                     <Routes/>
+        //                     </View>)
+        // }
 
 
         return (

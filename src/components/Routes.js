@@ -11,10 +11,10 @@ import HomeAdmin from '../pages/HomeAdmin';
 import HomeCustomer from '../pages/HomeCustomer';
 import HomeDriver from '../pages/HomeDriver';
 import Splash from '../pages/Splash';
-import Menu from '../../src/routes';
+// import Menu from '../../src/routes';
 import TrainerDetails from '../pages/TrainerDetails';
 import TrainerCustomerList from '../pages/TrainerCustomerList';
-import Register from '../Page3/Register';
+// import Register from '../Page3/Register';
 import SlotList from '../pages/SlotList';
 import SlotNew from '../pages/SlotNew';
 import CurrentDayCus from '../pages/CurrentDayCus';
@@ -108,7 +108,7 @@ export class Routes extends React.Component {
             title="CustomerList"
           />
           <Scene key="homeAdmin" component={HomeAdmin} title="Home" />
-          <Scene key="menu" component={Menu} title="Menu" />
+          {/* <Scene key="menu" component={Menu} title="Menu" /> */}
           <Scene key="homeCustomer" component={HomeCustomer} title="Home" />
           <Scene key="homeDriver" component={HomeDriver} title="Home" />
           <Scene
@@ -126,7 +126,7 @@ export class Routes extends React.Component {
             component={DocumentPickerApp}
             title="DocumentUpload"
           />
-          <Scene key="register" component={Register} title="Register" />
+          {/* <Scene key="register" component={Register} title="Register" /> */}
           <Scene key="slotList" component={SlotList} title="SlotList" />
           <Scene key="slotNew" component={SlotNew} title="SlotNew" />
           <Scene

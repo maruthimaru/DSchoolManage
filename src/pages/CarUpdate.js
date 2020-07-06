@@ -155,19 +155,6 @@ export class CarUpdate extends Component {
                 onChangeText={text => this.setState({number: text})}
               />
 
-              {/* {
-                this.state.data.map((item, index) => (
-                  <TouchableOpacity
-                     key = {item}
-                     style = {styles.container}
-                     onPress = {() =>  Alert.alert(item.message)}>
-                     <Text style = {styles.text}>
-                        {item.message}
-                     </Text>
-                  </TouchableOpacity>
-               ))
-               } */}
-
               <TouchableOpacity
                 onPress={() =>
                   this.insert(

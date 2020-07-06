@@ -164,14 +164,6 @@ export class DriverList extends Component {
                   </Text>
                 </View>
               ))}
-
-              {/* <FlatList
-                data={this.state.dataSource}
-                renderItem={({item}) =>
-                <Text>{item.user_id}</Text>
-                }
-                keyExtractor={({id}, index) => id}
-              /> */}
             </View>
           </ScrollView>
         </SafeAreaView>
@@ -229,6 +221,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1.84,
     elevation: 1,
     padding: 10,
+    margin: 10,
   },
   textDate: {
     textAlign: 'right',
@@ -260,6 +253,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     top: 10,
+    right: 5,
     // padding: 10,
   },
   imageEdit: {
