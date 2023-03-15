@@ -1,13 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View ,StyleSheet,TextInput,Button,Alert,TouchableHighlight,TouchableOpacity,ActivityIndicator,
 FlatList,SafeAreaView, ScrollView,BackHandler,Image} from 'react-native'
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 import { Actions } from 'react-native-router-flux'
 import { openDatabase } from 'react-native-sqlite-storage';
 import ActionBarImage from '../components/ActionBarImage'
